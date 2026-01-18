@@ -373,10 +373,19 @@ document.querySelectorAll('.project-card').forEach(card => {
         this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     });
 
-    // Simplified hover effect for better performance
-    // Removed 3D transforms that were causing lag
+    // 3D card hover effect - restored by user request
     card.addEventListener('mousemove', function (e) {
-        // Removed heavy 3D perspective transforms
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+
+        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
     });
 
     card.addEventListener('mouseleave', function () {
