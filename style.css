@@ -54,11 +54,12 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: none;
 }
 
-/* Hide cursor for all elements on desktop only */
+/* Hide default cursor only on desktop */
 @media (hover: hover) and (pointer: fine) {
+
+    body,
     * {
         cursor: none !important;
     }
