@@ -276,28 +276,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Parallax effect for hero section (subtle)
-let ticking = false;
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-content');
-
-            if (hero && scrolled < window.innerHeight) {
-                const opacity = 1 - (scrolled / window.innerHeight) * 0.5;
-                const translateY = scrolled * 0.2;
-                hero.style.transform = `translateY(${translateY}px)`;
-                hero.style.opacity = opacity;
-            }
-
-            ticking = false;
-        });
-
-        ticking = true;
-    }
-});
+// Removed parallax effect for better performance
+// The effect was causing lag on scroll
 
 // Add smooth reveal on page load
 window.addEventListener('load', () => {
@@ -324,9 +304,9 @@ document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Create trail effect (reduced frequency for better performance)
+    // Create trail effect (optimized for performance)
     const now = Date.now();
-    if (now - lastTrailTime > 80) { // Create trail every 80ms
+    if (now - lastTrailTime > 150) { // Create trail every 150ms for better performance
         createCursorTrail(mouseX, mouseY);
         lastTrailTime = now;
     }
@@ -347,19 +327,22 @@ function createCursorTrail(x, y) {
     }, 800);
 }
 
-// Smooth cursor animation
+// Smooth cursor animation (optimized)
 function animateCursor() {
-    // Smooth follow effect (optimized for smooth movement)
-    const ease = 0.25; // Increased for smoother, more fluid movement
+    // Smooth follow effect with will-change for GPU acceleration
+    const ease = 0.2; // Balanced for performance and smoothness
     cursorX += (mouseX - cursorX) * ease;
     cursorY += (mouseY - cursorY) * ease;
 
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
+    // Use transform instead of left/top for better performance
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
 
     requestAnimationFrame(animateCursor);
 }
 
+// Set initial position
+cursor.style.left = '0';
+cursor.style.top = '0';
 animateCursor();
 
 // Cursor interaction with buttons and links
@@ -390,18 +373,10 @@ document.querySelectorAll('.project-card').forEach(card => {
         this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     });
 
+    // Simplified hover effect for better performance
+    // Removed 3D transforms that were causing lag
     card.addEventListener('mousemove', function (e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        // Removed heavy 3D perspective transforms
     });
 
     card.addEventListener('mouseleave', function () {
