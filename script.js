@@ -293,11 +293,15 @@ window.addEventListener('load', () => {
 const isTouchDevice = () => {
     return (('ontouchstart' in window) ||
         (navigator.maxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0));
+        (navigator.msMaxTouchPoints > 0) ||
+        window.matchMedia("(pointer: coarse)").matches);
 };
 
-// Only create cursor on non-touch devices
-if (!isTouchDevice()) {
+// Add class to body if touch device
+if (isTouchDevice()) {
+    document.body.classList.add('touch-device');
+} else {
+    // Only create cursor on non-touch devices
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
     cursor.innerHTML = '<img src="cursor.png" alt="">';

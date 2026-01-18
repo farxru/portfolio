@@ -62,6 +62,17 @@ body {
     cursor: none !important;
 }
 
+/* Force show normal cursor on touch devices */
+body.touch-device,
+body.touch-device * {
+    cursor: auto !important;
+}
+
+body.touch-device .custom-cursor,
+body.touch-device .cursor-trail {
+    display: none !important;
+}
+
 /* Copy Protection - Disable text selection and image dragging */
 body,
 * {
