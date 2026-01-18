@@ -54,39 +54,12 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: none;
 }
 
-/* Hide default cursor only on desktop */
-@media (hover: hover) and (pointer: fine) {
-
-    body,
-    * {
-        cursor: none !important;
-    }
-}
-
-/* Force show normal cursor on mobile/touch devices */
-@media (hover: none) and (pointer: coarse),
-(pointer: coarse) {
-
-    body,
-    body *,
-    .custom-cursor,
-    .cursor-trail {
-        cursor: auto !important;
-        display: none !important;
-    }
-}
-
-/* Force show normal cursor on touch devices */
-body.touch-device,
-body.touch-device * {
-    cursor: auto !important;
-}
-
-body.touch-device .custom-cursor,
-body.touch-device .cursor-trail {
-    display: none !important;
+/* Hide cursor for all elements */
+* {
+    cursor: none !important;
 }
 
 /* Copy Protection - Disable text selection and image dragging */
@@ -1056,14 +1029,16 @@ button:hover .icon,
 }
 
 /* Hide cursor on mobile/touch devices */
-@media (hover: none) and (pointer: coarse),
-(pointer: coarse),
-(max-width: 768px) {
+@media (hover: none) and (pointer: coarse) {
 
     .custom-cursor,
     .cursor-trail {
         display: none !important;
-        visibility: hidden !important;
+    }
+
+    body,
+    * {
+        cursor: auto !important;
     }
 }
 

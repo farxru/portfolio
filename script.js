@@ -288,125 +288,101 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// Custom RGB Cursor with Image and Trail Effect - Only on desktop
-// Check if device is mobile/touch device
-const isTouchDevice = () => {
-    return (('ontouchstart' in window) ||
-        (navigator.maxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0) ||
-        window.matchMedia("(pointer: coarse)").matches);
-};
+// Custom RGB Cursor with Image and Trail Effect
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+cursor.innerHTML = '<img src="cursor.png" alt="">';
+document.body.appendChild(cursor);
 
-// Add class to body if touch device
-if (isTouchDevice()) {
-    document.body.classList.add('touch-device');
-} else {
-    // Only create cursor on non-touch devices
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    cursor.innerHTML = '<img src="cursor.png" alt="">';
-    document.body.appendChild(cursor);
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+let lastTrailTime = 0;
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-    let lastTrailTime = 0;
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        // Create trail effect (optimized for performance)
-        const now = Date.now();
-        if (now - lastTrailTime > 150) { // Create trail every 150ms for better performance
-            createCursorTrail(mouseX, mouseY);
-            lastTrailTime = now;
-        }
-    });
-
-    // Create cursor trail
-    function createCursorTrail(x, y) {
-        const trail = document.createElement('div');
-        trail.className = 'cursor-trail';
-        trail.innerHTML = '<img src="cursor.png" alt="">';
-        trail.style.left = x + 'px';
-        trail.style.top = y + 'px';
-        document.body.appendChild(trail);
-
-        // Remove trail after animation
-        setTimeout(() => {
-            trail.remove();
-        }, 800);
+    // Create trail effect (optimized for performance)
+    const now = Date.now();
+    if (now - lastTrailTime > 150) { // Create trail every 150ms for better performance
+        createCursorTrail(mouseX, mouseY);
+        lastTrailTime = now;
     }
+});
 
-    // Smooth cursor animation (optimized)
-    function animateCursor() {
-        // Smooth follow effect with will-change for GPU acceleration
-        const ease = 0.2; // Balanced for performance and smoothness
-        cursorX += (mouseX - cursorX) * ease;
-        cursorY += (mouseY - cursorY) * ease;
+// Create cursor trail
+function createCursorTrail(x, y) {
+    const trail = document.createElement('div');
+    trail.className = 'cursor-trail';
+    trail.innerHTML = '<img src="cursor.png" alt="">';
+    trail.style.left = x + 'px';
+    trail.style.top = y + 'px';
+    document.body.appendChild(trail);
 
-        // Use transform instead of left/top for better performance
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-
-        requestAnimationFrame(animateCursor);
-    }
-
-    // Set initial position
-    cursor.style.left = '0';
-    cursor.style.top = '0';
-    animateCursor();
-
-    // Cursor interaction with buttons and links
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
-
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'scale(1.5)';
-            cursor.style.transition = 'transform 0.2s ease';
-        });
-
-        element.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'scale(1)';
-        });
-
-        element.addEventListener('mousedown', () => {
-            cursor.style.transform = 'scale(1.2)';
-        });
-
-        element.addEventListener('mouseup', () => {
-            cursor.style.transform = 'scale(1.5)';
-        });
-    });
-
-    // Add interactive hover effects to project cards
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('mouseenter', function () {
-            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-
-        // 3D card hover effect - restored by user request
-        card.addEventListener('mousemove', function (e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-        });
-
-        card.addEventListener('mouseleave', function () {
-            this.style.transform = '';
-        });
-    });
+    // Remove trail after animation
+    setTimeout(() => {
+        trail.remove();
+    }, 800);
 }
-// End of cursor code - only runs on desktop
+
+// Smooth cursor animation (optimized)
+function animateCursor() {
+    // Smooth follow effect with will-change for GPU acceleration
+    const ease = 0.2; // Balanced for performance and smoothness
+    cursorX += (mouseX - cursorX) * ease;
+    cursorY += (mouseY - cursorY) * ease;
+
+    // Use transform instead of left/top for better performance
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+
+    requestAnimationFrame(animateCursor);
+}
+
+// Set initial position
+cursor.style.left = '0';
+cursor.style.top = '0';
+animateCursor();
+
+// Cursor interaction with buttons and links
+const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
+
+interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(1.5)';
+        cursor.style.transition = 'transform 0.2s ease';
+    });
+
+    element.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+    });
+
+    element.addEventListener('mousedown', () => {
+        cursor.style.transform = 'scale(1.2)';
+    });
+
+    element.addEventListener('mouseup', () => {
+        cursor.style.transform = 'scale(1.5)';
+    });
+});
+
+// Add interactive hover effects to project cards
+document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', function () {
+        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+
+    // Simplified hover effect for better performance
+    // Removed 3D transforms that were causing lag
+    card.addEventListener('mousemove', function (e) {
+        // Removed heavy 3D perspective transforms
+    });
+
+    card.addEventListener('mouseleave', function () {
+        this.style.transform = '';
+    });
+});
 
 // Lazy loading for images (if you add real images later)
 if ('IntersectionObserver' in window) {
