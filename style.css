@@ -1097,10 +1097,14 @@ button:hover .icon,
     height: 28px;
     pointer-events: none;
     z-index: 10000;
-    /* Use transform for better performance */
     will-change: transform;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.4));
-    transition: filter 0.2s ease;
+    /* Simplified shadow for performance */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-cursor.cursor-hover {
+    transform: scale(1.5) !important;
 }
 
 /* Hide cursor on mobile/touch devices */
@@ -1135,7 +1139,7 @@ button:hover .icon,
     transform: translate(-50%, -50%);
     opacity: 0.4;
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-    animation: trail-fade 0.8s ease-out forwards, rgb-cursor-border 3s linear infinite;
+    animation: trail-fade 0.8s ease-out forwards;
 }
 
 .cursor-trail img {

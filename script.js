@@ -320,45 +320,46 @@ function createCursorTrail(x, y) {
     }, 800);
 }
 
+const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
+let cursorScale = 1;
+
+interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursorScale = 1.6;
+        cursor.classList.add('cursor-hover');
+    });
+
+    element.addEventListener('mouseleave', () => {
+        cursorScale = 1;
+        cursor.classList.remove('cursor-hover');
+    });
+
+    element.addEventListener('mousedown', () => {
+        cursorScale = 1.3;
+    });
+
+    element.addEventListener('mouseup', () => {
+        cursorScale = 1.6;
+    });
+});
+
 // Smooth cursor animation (optimized)
 function animateCursor() {
-    // Smooth follow effect with will-change for GPU acceleration
-    const ease = 0.15; // Smoother, more fluid movement
+    // Highly responsive ease for zero lag feel
+    const ease = 0.4;
     cursorX += (mouseX - cursorX) * ease;
     cursorY += (mouseY - cursorY) * ease;
 
-    // Use transform instead of left/top for better performance
-    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+    // Combined translate and scale for high performance
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
 
     requestAnimationFrame(animateCursor);
 }
 
-// Set initial position
+// Initialize cursor
 cursor.style.left = '0';
 cursor.style.top = '0';
 animateCursor();
-
-// Cursor interaction with buttons and links
-const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
-
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(1.5)';
-        cursor.style.transition = 'transform 0.2s ease';
-    });
-
-    element.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-    });
-
-    element.addEventListener('mousedown', () => {
-        cursor.style.transform = 'scale(1.2)';
-    });
-
-    element.addEventListener('mouseup', () => {
-        cursor.style.transform = 'scale(1.5)';
-    });
-});
 
 // Add interactive hover effects to project cards
 document.querySelectorAll('.project-card').forEach(card => {
