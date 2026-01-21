@@ -498,21 +498,41 @@ section {
 }
 
 .project-img-1 {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%),
+        url('dataviz-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .project-img-2 {
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(10, 10, 10, 0.4) 100%),
+        url('xieron-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .project-img-3 {
-    background: linear-gradient(135deg, #0a0a0a 0%, #2a2a2a 100%);
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%),
+        url('taskflow-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .project-overlay {
     position: absolute;
     top: var(--spacing-md);
     left: var(--spacing-md);
+}
+
+.xieron-logo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
+    z-index: 2;
 }
 
 .project-category {
@@ -1015,7 +1035,7 @@ button:hover .icon,
     background: var(--accent-hover);
 }
 
-/* Custom Cursor with RGB Border Effect */
+/* Custom Cursor with White Shadow */
 .custom-cursor {
     position: fixed;
     width: 28px;
@@ -1024,8 +1044,8 @@ button:hover .icon,
     z-index: 10000;
     /* Use transform for better performance */
     will-change: transform;
-    filter: drop-shadow(0 0 4px currentColor);
-    animation: rgb-cursor-border 3s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.4));
+    transition: filter 0.2s ease;
 }
 
 /* Hide cursor on mobile/touch devices */
@@ -1048,35 +1068,7 @@ button:hover .icon,
     display: block;
 }
 
-@keyframes rgb-cursor-border {
-    0% {
-        color: rgb(255, 0, 0);
-    }
-
-    16.66% {
-        color: rgb(255, 255, 0);
-    }
-
-    33.33% {
-        color: rgb(0, 255, 0);
-    }
-
-    50% {
-        color: rgb(0, 255, 255);
-    }
-
-    66.66% {
-        color: rgb(0, 0, 255);
-    }
-
-    83.33% {
-        color: rgb(255, 0, 255);
-    }
-
-    100% {
-        color: rgb(255, 0, 0);
-    }
-}
+/* Removed RGB animation - using static white shadow instead */
 
 /* Cursor trail effect */
 .cursor-trail {
@@ -1086,8 +1078,8 @@ button:hover .icon,
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    opacity: 0.6;
-    filter: drop-shadow(0 0 3px currentColor);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
     animation: trail-fade 0.8s ease-out forwards, rgb-cursor-border 3s linear infinite;
 }
 

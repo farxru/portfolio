@@ -330,7 +330,7 @@ function createCursorTrail(x, y) {
 // Smooth cursor animation (optimized)
 function animateCursor() {
     // Smooth follow effect with will-change for GPU acceleration
-    const ease = 0.2; // Balanced for performance and smoothness
+    const ease = 0.15; // Smoother, more fluid movement
     cursorX += (mouseX - cursorX) * ease;
     cursorY += (mouseY - cursorY) * ease;
 
