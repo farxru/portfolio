@@ -1236,3 +1236,94 @@ section {
 #contact {
     --section-index: 4;
 }
+
+/* Flower Sidebars styling */
+.flower-sidebar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    animation: flowersEntry 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+.flower-sidebar.left {
+    left: 20px;
+}
+
+.flower-sidebar.right {
+    right: 20px;
+}
+
+.flower-vibe {
+    width: 40px;
+    height: 40px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' opacity='0.6' d='M12,2C10.89,2 10,2.89 10,4C10,5.11 10.89,6 12,6C13.11,6 14,5.11 14,4C14,2.89 13.11,2 12,2M12,18C10.89,18 10,18.89 10,20C10,21.11 10.89,22 12,22C13.11,22 14,21.11 14,20C14,18.89 13.11,18 12,18M20,10C18.89,10 18,10.89 18,12C18,13.11 18.89,14 20,14C21.11,14 22,13.11 22,12C22,10.89 21.11,10 20,10M4,10C2.89,10 2,10.89 2,12C2,13.11 2.89,14 4,14C5.11,14 6,13.11 6,12C6,10.89 5.11,10 4,10M12,10C10.9,10 10,10.9 10,12C10,13.1 10.9,14 12,14C13.1,14 14,13.1 14,12C14,10.9 13.1,10 12,10M12,8C14.21,8 16,9.79 16,12C16,14.21 14.21,16 12,16C9.79,16 8,14.21 8,12C8,9.79 9.79,8 12,8Z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+    animation: flowerSway 5s ease-in-out infinite;
+}
+
+.flower-sidebar.left .flower-vibe {
+    animation-delay: calc(var(--i) * 0.5s);
+}
+
+.flower-sidebar.right .flower-vibe {
+    animation-delay: calc((var(--i) + 2) * 0.5s);
+}
+
+@keyframes flowersEntry {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes flowerSway {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(15deg) scale(1.1);
+    }
+}
+
+.flower-sidebar .flower-vibe:nth-child(1) {
+    --i: 1;
+}
+
+.flower-sidebar .flower-vibe:nth-child(2) {
+    --i: 2;
+}
+
+.flower-sidebar .flower-vibe:nth-child(3) {
+    --i: 3;
+}
+
+.flower-sidebar .flower-vibe:nth-child(4) {
+    --i: 4;
+}
+
+.flower-sidebar .flower-vibe:nth-child(5) {
+    --i: 5;
+}
+
+@media (max-width: 1200px) {
+    .flower-sidebar {
+        display: none;
+    }
+}
