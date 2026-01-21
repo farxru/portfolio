@@ -510,8 +510,8 @@ section {
 }
 
 .project-img-1 {
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.6) 0%, rgba(42, 42, 42, 0.6) 100%),
-        url('data-analytics-bg.png');
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.5) 0%, rgba(42, 42, 42, 0.5) 100%),
+        url('video-photo-editor-bg.png');
     background-size: cover;
     background-position: center;
 }
