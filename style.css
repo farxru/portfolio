@@ -48,7 +48,12 @@ html {
 
 body {
     font-family: var(--font-primary);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 50%, rgba(255, 255, 255, 0.03) 100%),
+    background:
+        radial-gradient(ellipse at center,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.08) 25%,
+            rgba(255, 255, 255, 0.03) 50%,
+            transparent 70%),
         var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -57,6 +62,40 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     cursor: none;
+    position: relative;
+}
+
+/* Breathing glow overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.06) 30%,
+            transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+    animation: breathingGlow 4s ease-in-out infinite;
+}
+
+@keyframes breathingGlow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
 }
 
 /* Hide cursor for all elements */
@@ -1123,9 +1162,11 @@ button:hover .icon,
         transform: scale(0.95) translateY(20px);
         filter: blur(10px) brightness(0.5);
     }
+
     50% {
         filter: blur(2px) brightness(1.2);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1134,18 +1175,24 @@ button:hover .icon,
 }
 
 @keyframes glitchEffect {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(0);
     }
+
     20% {
         transform: translate(-2px, 2px);
     }
+
     40% {
         transform: translate(-2px, -2px);
     }
+
     60% {
         transform: translate(2px, 2px);
     }
+
     80% {
         transform: translate(2px, -2px);
     }
@@ -1159,7 +1206,7 @@ body {
 /* Apply glitch to hero section on load */
 .hero {
     animation: dangerousEntry 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-               glitchEffect 0.3s ease-in-out 0.5s;
+        glitchEffect 0.3s ease-in-out 0.5s;
 }
 
 /* Stagger animation for sections */
@@ -1169,7 +1216,18 @@ section {
 }
 
 /* Add animation delays for different sections */
-#about { --section-index: 1; }
-#work { --section-index: 2; }
-#skills { --section-index: 3; }
-#contact { --section-index: 4; }
+#about {
+    --section-index: 1;
+}
+
+#work {
+    --section-index: 2;
+}
+
+#skills {
+    --section-index: 3;
+}
+
+#contact {
+    --section-index: 4;
+}
