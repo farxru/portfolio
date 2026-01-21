@@ -524,8 +524,8 @@ section {
 }
 
 .project-img-3 {
-    background: linear-gradient(135deg, rgba(88, 101, 242, 0.3) 0%, rgba(114, 137, 218, 0.3) 100%),
-        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    background: linear-gradient(135deg, rgba(88, 101, 242, 0.2) 0%, rgba(114, 137, 218, 0.2) 100%),
+        url('discord-bot-bg.png');
     background-size: cover;
     background-position: center;
 }
