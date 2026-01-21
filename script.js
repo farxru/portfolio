@@ -190,39 +190,21 @@ if (contactForm) {
             return;
         }
 
-        // Show loading state
-        const submitBtn = contactForm.querySelector('.btn-submit');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span>Sending...</span>';
-        submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
+        // Create mailto link with form data
+        const mailtoLink = `mailto:notfarruxd@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+        )}`;
 
-        // Submit to Formspree
-        try {
-            const response = await fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
+        // Open mailto link
+        window.location.href = mailtoLink;
 
-            if (response.ok) {
-                // Show success message
-                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                // Reset form
-                contactForm.reset();
-            } else {
-                showNotification('Oops! There was a problem sending your message.', 'error');
-            }
-        } catch (error) {
-            showNotification('Oops! There was a problem sending your message.', 'error');
-        } finally {
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('loading');
-        }
+        // Show success message
+        showNotification('Opening your email client...', 'success');
+
+        // Reset form after a short delay
+        setTimeout(() => {
+            contactForm.reset();
+        }, 1000);
     });
 }
 
