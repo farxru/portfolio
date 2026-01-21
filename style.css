@@ -475,16 +475,27 @@ section {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
-    transition: var(--transition);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     /* Removed backdrop-filter for better performance */
     /* Simplified box-shadow */
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+    cursor: pointer;
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255, 255, 255, 0.15);
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.05);
+}
+
+.project-card:hover .project-tags .tag {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .project-image {
@@ -495,6 +506,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-img-1 {
@@ -580,6 +592,7 @@ section {
     font-size: 0.8125rem;
     font-weight: 500;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
 .project-links {
