@@ -20,53 +20,121 @@
 <body>
     <!-- Flower Sidebars -->
     <div class="flower-sidebar left">
-        <svg class="hanging-vine" viewBox="0 0 100 400" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50,0 Q45,50 50,100 Q55,150 50,200 Q45,250 50,300 Q55,350 50,400" stroke="white" stroke-width="1.5"
-                fill="none" opacity="0.4" />
-            <circle cx="50" cy="80" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="80" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="75" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="75" rx="6" ry="10" fill="white" opacity="0.5" />
+        <svg class="hanging-vine" viewBox="0 0 120 500" xmlns="http://www.w3.org/2000/svg">
+            <!-- Curved vine stem -->
+            <path d="M60,0 Q50,40 55,80 Q60,120 50,160 Q40,200 50,240 Q60,280 55,320 Q50,360 55,400 Q60,440 60,500"
+                stroke="white" stroke-width="2" fill="none" opacity="0.5" />
 
-            <circle cx="50" cy="160" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="160" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="155" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="155" rx="6" ry="10" fill="white" opacity="0.5" />
+            <!-- Dark filled leaves alternating -->
+            <ellipse cx="40" cy="60" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 40 60)" />
+            <ellipse cx="70" cy="100" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 70 100)" />
+            <ellipse cx="35" cy="140" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 35 140)" />
+            <ellipse cx="65" cy="180" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 65 180)" />
+            <ellipse cx="40" cy="220" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 40 220)" />
+            <ellipse cx="70" cy="260" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 70 260)" />
+            <ellipse cx="35" cy="300" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 35 300)" />
+            <ellipse cx="65" cy="340" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 65 340)" />
 
-            <circle cx="50" cy="240" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="240" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="235" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="235" rx="6" ry="10" fill="white" opacity="0.5" />
-
-            <circle cx="50" cy="320" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="320" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="315" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="315" rx="6" ry="10" fill="white" opacity="0.5" />
+            <!-- 5-Petal Flowers -->
+            <g transform="translate(55, 80)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(50, 160)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(55, 240)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(55, 320)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(55, 400)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
         </svg>
     </div>
     <div class="flower-sidebar right">
-        <svg class="hanging-vine" viewBox="0 0 100 400" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50,0 Q55,50 50,100 Q45,150 50,200 Q55,250 50,300 Q45,350 50,400" stroke="white" stroke-width="1.5"
-                fill="none" opacity="0.4" />
-            <circle cx="50" cy="80" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="80" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="75" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="75" rx="6" ry="10" fill="white" opacity="0.5" />
+        <svg class="hanging-vine" viewBox="0 0 120 500" xmlns="http://www.w3.org/2000/svg">
+            <!-- Curved vine stem (mirrored) -->
+            <path d="M60,0 Q70,40 65,80 Q60,120 70,160 Q80,200 70,240 Q60,280 65,320 Q70,360 65,400 Q60,440 60,500"
+                stroke="white" stroke-width="2" fill="none" opacity="0.5" />
 
-            <circle cx="50" cy="160" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="160" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="155" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="155" rx="6" ry="10" fill="white" opacity="0.5" />
+            <!-- Dark filled leaves alternating (mirrored) -->
+            <ellipse cx="80" cy="60" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 80 60)" />
+            <ellipse cx="50" cy="100" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 50 100)" />
+            <ellipse cx="85" cy="140" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 85 140)" />
+            <ellipse cx="55" cy="180" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 55 180)" />
+            <ellipse cx="80" cy="220" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 80 220)" />
+            <ellipse cx="50" cy="260" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 50 260)" />
+            <ellipse cx="85" cy="300" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(30 85 300)" />
+            <ellipse cx="55" cy="340" rx="8" ry="14" fill="white" opacity="0.7" transform="rotate(-30 55 340)" />
 
-            <circle cx="50" cy="240" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="240" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="235" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="235" rx="6" ry="10" fill="white" opacity="0.5" />
-
-            <circle cx="50" cy="320" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.7" />
-            <circle cx="50" cy="320" r="4" fill="white" opacity="0.3" />
-            <ellipse cx="35" cy="315" rx="6" ry="10" fill="white" opacity="0.5" />
-            <ellipse cx="65" cy="315" rx="6" ry="10" fill="white" opacity="0.5" />
+            <!-- 5-Petal Flowers -->
+            <g transform="translate(65, 80)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(70, 160)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(65, 240)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(65, 320)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
+            <g transform="translate(65, 400)">
+                <circle cx="0" cy="-8" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-4" cy="6" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="-6" cy="-2" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.6" />
+                <circle cx="0" cy="0" r="2" fill="white" opacity="0.4" />
+            </g>
         </svg>
     </div>
 
