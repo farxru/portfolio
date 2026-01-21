@@ -197,21 +197,32 @@ if (contactForm) {
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
 
-        // Simulate form submission (replace with actual backend call)
-        setTimeout(() => {
-            console.log('Form submitted:', { name, email, subject, message });
+        // Submit to Formspree
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
 
-            // Show success message
-            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-
-            // Reset form
-            contactForm.reset();
-
+            if (response.ok) {
+                // Show success message
+                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+                // Reset form
+                contactForm.reset();
+            } else {
+                showNotification('Oops! There was a problem sending your message.', 'error');
+            }
+        } catch (error) {
+            showNotification('Oops! There was a problem sending your message.', 'error');
+        } finally {
             // Reset button
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
             submitBtn.classList.remove('loading');
-        }, 1500);
+        }
     });
 }
 
