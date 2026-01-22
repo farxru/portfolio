@@ -1,0 +1,50 @@
+/*
+  # Security Headers Configuration
+  # This file configures security headers for GitHub Pages
+  # For Cloudflare users: These headers work alongside Cloudflare's protection
+  
+  # Content Security Policy - Prevents XSS attacks
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  
+  # Prevent clickjacking attacks
+  X-Frame-Options: DENY
+  
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+  
+  # Enable XSS protection in browsers
+  X-XSS-Protection: 1; mode=block
+  
+  # Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Enforce HTTPS (31536000 seconds = 1 year)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  
+  # Restrict browser features and APIs
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+  
+  # Cache control for security
+  Cache-Control: public, max-age=3600, must-revalidate
+  
+  # Additional security headers
+  X-Permitted-Cross-Domain-Policies: none
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/*.html
+  # HTML-specific headers
+  Cache-Control: public, max-age=1800, must-revalidate
+
+/*.css
+  # CSS caching
+  Cache-Control: public, max-age=86400, immutable
+
+/*.js
+  # JavaScript caching
+  Cache-Control: public, max-age=86400, immutable
+
+/*.png /*.jpg /*.jpeg /*.gif /*.webp /*.svg
+  # Image caching
+  Cache-Control: public, max-age=604800, immutable

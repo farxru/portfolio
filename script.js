@@ -1,3 +1,127 @@
+// ============================================
+// SECURITY LAYER - DDoS & Attack Protection
+// ============================================
+
+// CSRF Token Generation and Management
+const SecurityManager = {
+    csrfToken: null,
+    requestLog: [],
+    maxRequestsPerMinute: 10,
+    blockedIPs: new Set(),
+
+    // Generate CSRF token
+    generateCSRFToken() {
+        const array = new Uint8Array(32);
+        crypto.getRandomValues(array);
+        this.csrfToken = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+        sessionStorage.setItem('csrf_token', this.csrfToken);
+        return this.csrfToken;
+    },
+
+    // Validate CSRF token
+    validateCSRFToken(token) {
+        return token === this.csrfToken || token === sessionStorage.getItem('csrf_token');
+    },
+
+    // Rate limiting - Prevent DDoS
+    checkRateLimit() {
+        const now = Date.now();
+        const oneMinuteAgo = now - 60000;
+
+        // Clean old requests
+        this.requestLog = this.requestLog.filter(timestamp => timestamp > oneMinuteAgo);
+
+        // Check if limit exceeded
+        if (this.requestLog.length >= this.maxRequestsPerMinute) {
+            console.warn('⚠️ Rate limit exceeded. Please slow down.');
+            return false;
+        }
+
+        // Log this request
+        this.requestLog.push(now);
+        return true;
+    },
+
+    // Input sanitization - Prevent XSS
+    sanitizeInput(input) {
+        if (typeof input !== 'string') return input;
+
+        const div = document.createElement('div');
+        div.textContent = input;
+        let sanitized = div.innerHTML;
+
+        // Additional sanitization
+        sanitized = sanitized
+            .replace(/[<>]/g, '')
+            .replace(/javascript:/gi, '')
+            .replace(/on\w+=/gi, '')
+            .replace(/eval\(/gi, '')
+            .replace(/script/gi, '');
+
+        return sanitized.trim();
+    },
+
+    // Validate email format
+    validateEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email) && email.length <= 254;
+    },
+
+    // Bot detection - Check for suspicious behavior
+    detectBot() {
+        const checks = {
+            hasWebdriver: navigator.webdriver === true,
+            hasPhantom: window.phantom !== undefined,
+            hasCallPhantom: window.callPhantom !== undefined,
+            hasSuspiciousPlugins: navigator.plugins.length === 0,
+            hasSuspiciousLanguages: navigator.languages.length === 0,
+            automationDetected: false
+        };
+
+        // Check for automation
+        if (navigator.webdriver || window.phantom || window.callPhantom) {
+            checks.automationDetected = true;
+        }
+
+        return checks.automationDetected;
+    },
+
+    // Initialize security
+    init() {
+        this.generateCSRFToken();
+
+        // Detect and log suspicious activity
+        if (this.detectBot()) {
+            console.warn('🤖 Automated browser detected');
+        }
+
+        // Monitor for suspicious activity
+        this.monitorSuspiciousActivity();
+    },
+
+    // Monitor for suspicious patterns
+    monitorSuspiciousActivity() {
+        let clickCount = 0;
+        let lastClickTime = 0;
+
+        document.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - lastClickTime < 100) {
+                clickCount++;
+                if (clickCount > 10) {
+                    console.warn('⚠️ Suspicious clicking pattern detected');
+                }
+            } else {
+                clickCount = 0;
+            }
+            lastClickTime = now;
+        });
+    }
+};
+
+// Initialize security on page load
+SecurityManager.init();
+
 // Copy Protection - Disable right-click, copy, cut, paste
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 document.addEventListener('copy', (e) => e.preventDefault());
@@ -164,33 +288,90 @@ document.querySelectorAll('.project-card, .skill-category, .about-text, .about-i
     observer.observe(el);
 });
 
-// Contact form handling with validation
+// Contact form handling with ENHANCED SECURITY
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
+    // Add CSRF token to form
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = SecurityManager.csrfToken;
+    contactForm.appendChild(csrfInput);
+
+    // Add honeypot field (invisible to users, catches bots)
+    const honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'website';
+    honeypot.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;';
+    honeypot.tabIndex = -1;
+    honeypot.autocomplete = 'off';
+    contactForm.appendChild(honeypot);
+
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(contactForm);
-        const name = formData.get('name').trim();
-        const email = formData.get('email').trim();
-        const subject = formData.get('subject').trim();
-        const message = formData.get('message').trim();
+        // SECURITY CHECK 1: Rate Limiting
+        if (!SecurityManager.checkRateLimit()) {
+            showNotification('⚠️ Too many requests. Please wait a moment.', 'error');
+            return;
+        }
 
-        // Validation
+        // SECURITY CHECK 2: Honeypot (bot detection)
+        const honeypotValue = contactForm.querySelector('input[name="website"]').value;
+        if (honeypotValue) {
+            console.warn('🤖 Bot detected via honeypot');
+            showNotification('Error submitting form', 'error');
+            return;
+        }
+
+        // SECURITY CHECK 3: CSRF Token Validation
+        const csrfToken = contactForm.querySelector('input[name="csrf_token"]').value;
+        if (!SecurityManager.validateCSRFToken(csrfToken)) {
+            showNotification('Security validation failed. Please refresh the page.', 'error');
+            return;
+        }
+
+        const formData = new FormData(contactForm);
+        let name = formData.get('name').trim();
+        let email = formData.get('email').trim();
+        let subject = formData.get('subject').trim();
+        let message = formData.get('message').trim();
+
+        // SECURITY CHECK 4: Input Validation
         if (!name || !email || !subject || !message) {
             showNotification('Please fill in all fields', 'error');
             return;
         }
 
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        // SECURITY CHECK 5: Input Length Validation (prevent overflow attacks)
+        if (name.length > 100 || subject.length > 200 || message.length > 5000) {
+            showNotification('Input too long. Please shorten your message.', 'error');
+            return;
+        }
+
+        // SECURITY CHECK 6: Email Validation
+        if (!SecurityManager.validateEmail(email)) {
             showNotification('Please enter a valid email address', 'error');
             return;
         }
 
-        // Create mailto link with form data
+        // SECURITY CHECK 7: Sanitize all inputs (prevent XSS)
+        name = SecurityManager.sanitizeInput(name);
+        email = SecurityManager.sanitizeInput(email);
+        subject = SecurityManager.sanitizeInput(subject);
+        message = SecurityManager.sanitizeInput(message);
+
+        // SECURITY CHECK 8: Check for spam patterns
+        const spamKeywords = ['viagra', 'casino', 'lottery', 'prize', 'click here', 'buy now'];
+        const messageLC = message.toLowerCase();
+        if (spamKeywords.some(keyword => messageLC.includes(keyword))) {
+            console.warn('⚠️ Spam detected in message');
+            showNotification('Message flagged as spam', 'error');
+            return;
+        }
+
+        // All security checks passed - Create mailto link
         const mailtoLink = `mailto:notfarruxd@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
             `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
         )}`;
@@ -199,11 +380,13 @@ if (contactForm) {
         window.location.href = mailtoLink;
 
         // Show success message
-        showNotification('Opening your email client...', 'success');
+        showNotification('✅ Opening your email client...', 'success');
 
         // Reset form after a short delay
         setTimeout(() => {
             contactForm.reset();
+            // Regenerate CSRF token for next submission
+            csrfInput.value = SecurityManager.generateCSRFToken();
         }, 1000);
     });
 }

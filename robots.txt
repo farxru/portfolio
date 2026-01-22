@@ -1,0 +1,29 @@
+# Robots.txt - Bot Access Control
+# This helps prevent malicious bots and scrapers
+
+User-agent: *
+Allow: /
+Disallow: /.git/
+Disallow: /.well-known/
+
+# Crawl delay to prevent aggressive scraping (in seconds)
+Crawl-delay: 10
+
+# Block known bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://farru.in/sitemap.xml

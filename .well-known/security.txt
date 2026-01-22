@@ -1,0 +1,8 @@
+Contact: mailto:notfarruxd@gmail.com
+Expires: 2027-01-22T09:42:00.000Z
+Preferred-Languages: en, hi
+Canonical: https://farru.in/.well-known/security.txt
+
+# Security Policy
+# If you discover a security vulnerability, please report it responsibly
+# We appreciate your efforts to improve our security
