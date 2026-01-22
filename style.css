@@ -1090,28 +1090,33 @@ button:hover .icon,
     background: var(--accent-hover);
 }
 
-/* Custom Cursor with White Shadow */
+/* Custom Cursor - OPTIMIZED */
 .custom-cursor {
     position: fixed;
     width: 28px;
     height: 28px;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 99999;
+    /* Increased to ensure always visible */
+    /* GPU acceleration hints */
     will-change: transform;
+    transform: translate3d(0, 0, 0);
+    /* Force GPU layer */
+    backface-visibility: hidden;
     /* Simplified shadow for performance */
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Removed transition - now instant */
 }
 
 .custom-cursor.cursor-hover {
-    transform: scale(1.5) !important;
+    /* Instant scale change */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
 }
 
 /* Hide cursor on mobile/touch devices */
 @media (hover: none) and (pointer: coarse) {
 
-    .custom-cursor,
-    .cursor-trail {
+    .custom-cursor {
         display: none !important;
     }
 
@@ -1127,38 +1132,7 @@ button:hover .icon,
     display: block;
 }
 
-/* Removed RGB animation - using static white shadow instead */
-
-/* Cursor trail effect */
-.cursor-trail {
-    position: fixed;
-    width: 28px;
-    height: 28px;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    opacity: 0.4;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-    animation: trail-fade 0.8s ease-out forwards;
-}
-
-.cursor-trail img {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-@keyframes trail-fade {
-    0% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
-    }
-}
+/* REMOVED TRAIL EFFECT - was causing lag */
 
 /* Dangerous Entry Animation */
 @keyframes dangerousEntry {

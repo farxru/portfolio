@@ -464,7 +464,7 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// Custom RGB Cursor with Image and Trail Effect
+// Custom Cursor - OPTIMIZED for Performance
 const cursor = document.createElement('div');
 cursor.className = 'custom-cursor';
 cursor.innerHTML = '<img src="cursor.png" alt="">';
@@ -474,34 +474,14 @@ let mouseX = 0;
 let mouseY = 0;
 let cursorX = 0;
 let cursorY = 0;
-let lastTrailTime = 0;
+
+// REMOVED TRAIL EFFECT - was causing lag and DOM bloat
 
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-
-    // Create trail effect (optimized for performance)
-    const now = Date.now();
-    if (now - lastTrailTime > 150) { // Create trail every 150ms for better performance
-        createCursorTrail(mouseX, mouseY);
-        lastTrailTime = now;
-    }
+    // Trail effect removed for better performance
 });
-
-// Create cursor trail
-function createCursorTrail(x, y) {
-    const trail = document.createElement('div');
-    trail.className = 'cursor-trail';
-    trail.innerHTML = '<img src="cursor.png" alt="">';
-    trail.style.left = x + 'px';
-    trail.style.top = y + 'px';
-    document.body.appendChild(trail);
-
-    // Remove trail after animation
-    setTimeout(() => {
-        trail.remove();
-    }, 800);
-}
 
 const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
 let cursorScale = 1;
@@ -526,15 +506,15 @@ interactiveElements.forEach(element => {
     });
 });
 
-// Smooth cursor animation (optimized)
+// OPTIMIZED cursor animation - instant response, no lag
 function animateCursor() {
-    // Highly responsive ease for zero lag feel
-    const ease = 0.4;
+    // Increased ease from 0.4 to 0.9 for near-instant response
+    const ease = 0.9;
     cursorX += (mouseX - cursorX) * ease;
     cursorY += (mouseY - cursorY) * ease;
 
-    // Combined translate and scale for high performance
-    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
+    // Use transform3d for GPU acceleration (prevents disappearing)
+    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) scale(${cursorScale})`;
 
     requestAnimationFrame(animateCursor);
 }
