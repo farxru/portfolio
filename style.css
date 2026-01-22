@@ -1235,15 +1235,26 @@ section {
     right: 0px;
 }
 
-/* Rose Vine Image Styling - Advanced Filter to Show Only Flowers */
+/* Rose Vine Image Styling - Using Mask to Remove Background */
 .rose-vine-img {
     width: 100%;
     height: auto;
     max-height: 85vh;
     object-fit: contain;
-    /* Multi-step filter: grayscale → high contrast → threshold → invert to white → glow */
-    filter:
-        grayscale(100%) contrast(500%) brightness(150%) invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+
+    /* Create white version with mask */
+    background: white;
+    -webkit-mask-image: url('rose-vine.png');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url('rose-vine.png');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    /* Glow effect */
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
     opacity: 0.85;
     animation: vineSwayGentle 8s ease-in-out infinite;
 }
