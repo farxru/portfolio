@@ -1211,27 +1211,46 @@ section {
     --section-index: 4;
 }
 
-/* Flower Sidebars - Hanging Vines */
+/* Flower Sidebars - Rose Vines */
 .flower-sidebar {
     position: fixed;
     top: 0;
     height: 100vh;
-    width: 100px;
+    width: 200px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 10;
     pointer-events: none;
     opacity: 0;
     animation: flowersEntry 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    padding-top: 30px;
 }
 
 .flower-sidebar.left {
-    left: 20px;
+    left: 0px;
 }
 
 .flower-sidebar.right {
-    right: 20px;
+    right: 0px;
+}
+
+/* Rose Vine Image Styling - Advanced Filter to Show Only Flowers */
+.rose-vine-img {
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+    object-fit: contain;
+    /* Multi-step filter: grayscale → high contrast → threshold → invert to white → glow */
+    filter:
+        grayscale(100%) contrast(500%) brightness(150%) invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+    opacity: 0.85;
+    animation: vineSwayGentle 8s ease-in-out infinite;
+}
+
+/* Flip right side vine for symmetry */
+.rose-vine-right {
+    transform: scaleX(-1);
 }
 
 .hanging-vine {
