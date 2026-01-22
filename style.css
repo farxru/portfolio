@@ -1241,8 +1241,10 @@ section {
     height: auto;
     max-height: 90vh;
     object-fit: contain;
-    /* Make image white with glow */
-    filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
+    /* Use mix-blend-mode for proper white rendering */
+    filter: grayscale(100%) contrast(200%) brightness(200%) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
+    mix-blend-mode: screen;
+    opacity: 0.8;
     animation: vineSwayGentle 8s ease-in-out infinite;
 }
 
