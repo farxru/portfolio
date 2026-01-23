@@ -1096,21 +1096,14 @@ button:hover .icon,
     width: 28px;
     height: 28px;
     pointer-events: none;
-    z-index: 99999;
-    /* Increased to ensure always visible */
+    z-index: 999999;
+    /* Increased to ensure always visible above all elements */
     /* GPU acceleration hints */
     will-change: transform;
     transform: translate3d(0, 0, 0);
     /* Force GPU layer */
     backface-visibility: hidden;
-    /* Simplified shadow for performance */
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-    /* Removed transition - now instant */
-}
-
-.custom-cursor.cursor-hover {
-    /* Instant scale change */
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+    /* Removed filter/shadow effects for clean cursor */
 }
 
 /* Hide cursor on mobile/touch devices */

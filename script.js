@@ -489,12 +489,10 @@ let cursorScale = 1;
 interactiveElements.forEach(element => {
     element.addEventListener('mouseenter', () => {
         cursorScale = 1.6;
-        cursor.classList.add('cursor-hover');
     });
 
     element.addEventListener('mouseleave', () => {
         cursorScale = 1;
-        cursor.classList.remove('cursor-hover');
     });
 
     element.addEventListener('mousedown', () => {
