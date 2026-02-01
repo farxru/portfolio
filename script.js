@@ -467,7 +467,8 @@ window.addEventListener('load', () => {
 // Custom Cursor - OPTIMIZED for Performance
 const cursor = document.createElement('div');
 cursor.className = 'custom-cursor';
-cursor.innerHTML = '<img src="cursor.png" alt="">';
+// Using pure CSS cursor instead of image for better reliability
+cursor.innerHTML = '<div class="cursor-dot"></div>';
 document.body.appendChild(cursor);
 
 let mouseX = 0;

@@ -1127,10 +1127,47 @@ button:hover .icon,
     }
 }
 
-.custom-cursor img {
+/* Pure CSS cursor dot with RGB border */
+.cursor-dot {
     width: 100%;
     height: 100%;
-    display: block;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.cursor-dot::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: linear-gradient(45deg,
+            #ff0000, #ff7f00, #ffff00, #00ff00,
+            #0000ff, #4b0082, #9400d3, #ff0000);
+    background-size: 400% 400%;
+    animation: rgbRotate 3s linear infinite;
+    z-index: -1;
+}
+
+/* RGB border animation for cursor */
+@keyframes rgbRotate {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* REMOVED TRAIL EFFECT - was causing lag */
