@@ -480,7 +480,11 @@ let cursorY = 0;
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    // Trail effect removed for better performance
+
+    // Show cursor on first mouse movement
+    if (!cursorInitialized) {
+        cursorInitialized = true;
+    }
 });
 
 const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
@@ -505,6 +509,8 @@ interactiveElements.forEach(element => {
 });
 
 // OPTIMIZED cursor animation - instant response, no lag
+let cursorInitialized = false;
+
 function animateCursor() {
     // Increased ease from 0.4 to 0.9 for near-instant response
     const ease = 0.9;
@@ -512,14 +518,21 @@ function animateCursor() {
     cursorY += (mouseY - cursorY) * ease;
 
     // Use transform3d for GPU acceleration (prevents disappearing)
-    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) scale(${cursorScale})`;
+    // Subtract half the cursor size to center it on the mouse
+    cursor.style.transform = `translate3d(${cursorX - 14}px, ${cursorY - 14}px, 0) scale(${cursorScale})`;
+
+    // Keep cursor visible during animation
+    if (cursorInitialized) {
+        cursor.style.opacity = '1';
+        cursor.style.visibility = 'visible';
+    }
 
     requestAnimationFrame(animateCursor);
 }
 
-// Initialize cursor
-cursor.style.left = '0';
-cursor.style.top = '0';
+// Initialize cursor as hidden
+cursor.style.opacity = '0';
+cursor.style.visibility = 'hidden';
 animateCursor();
 
 // Add interactive hover effects to project cards

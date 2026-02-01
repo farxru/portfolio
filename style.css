@@ -1093,17 +1093,21 @@ button:hover .icon,
 /* Custom Cursor - OPTIMIZED */
 .custom-cursor {
     position: fixed;
+    left: 0;
+    top: 0;
     width: 28px;
     height: 28px;
     pointer-events: none;
-    z-index: 999999;
-    /* Increased to ensure always visible above all elements */
+    z-index: 2147483647;
+    /* Maximum z-index to ensure always visible */
     /* GPU acceleration hints */
     will-change: transform;
     transform: translate3d(0, 0, 0);
     /* Force GPU layer */
     backface-visibility: hidden;
     /* Removed filter/shadow effects for clean cursor */
+    isolation: isolate;
+    /* Create new stacking context */
 }
 
 /* Hide cursor on mobile/touch devices */
