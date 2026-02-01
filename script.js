@@ -464,7 +464,10 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// Custom Cursor - OPTIMIZED for Performance
+// Custom Cursor - DISABLED (using default Windows cursor)
+// All custom cursor code has been disabled to use the default browser cursor
+
+/*
 const cursor = document.createElement('div');
 cursor.className = 'custom-cursor';
 // Using pure CSS cursor instead of image for better reliability
@@ -556,6 +559,7 @@ function animateCursor() {
 cursor.style.opacity = '0';
 cursor.style.visibility = 'hidden';
 animateCursor();
+*/
 
 // Add interactive hover effects to project cards
 document.querySelectorAll('.project-card').forEach(card => {
