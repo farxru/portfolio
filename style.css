@@ -61,7 +61,7 @@ body {
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: none;
+    /* Removed cursor: none to use default browser cursor */
     position: relative;
 }
 
@@ -101,7 +101,7 @@ body::before {
 
 /* Hide cursor for all elements */
 * {
-    cursor: none !important;
+    /* Removed cursor: none to use default browser cursor */
 }
 
 /* Copy Protection - Disable text selection and image dragging */
@@ -1090,28 +1090,10 @@ button:hover .icon,
     background: var(--accent-hover);
 }
 
-/* Custom Cursor - OPTIMIZED */
+/* Custom Cursor - DISABLED (using default browser cursor) */
 .custom-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 28px;
-    height: 28px;
-    pointer-events: none;
-    z-index: 2147483647;
-    /* Maximum z-index to ensure always visible */
-    /* GPU acceleration hints */
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    /* Force GPU layer */
-    backface-visibility: hidden;
-    /* Removed filter/shadow effects for clean cursor */
-    isolation: isolate;
-    /* Create new stacking context */
-    display: block;
-    /* Ensure it's always displayed */
-    overflow: visible;
-    /* Prevent clipping */
+    display: none !important;
+    /* Custom cursor disabled - using default browser cursor */
 }
 
 /* Hide cursor on mobile/touch devices */
