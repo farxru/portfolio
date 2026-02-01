@@ -1108,6 +1108,10 @@ button:hover .icon,
     /* Removed filter/shadow effects for clean cursor */
     isolation: isolate;
     /* Create new stacking context */
+    display: block;
+    /* Ensure it's always displayed */
+    overflow: visible;
+    /* Prevent clipping */
 }
 
 /* Hide cursor on mobile/touch devices */

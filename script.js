@@ -487,6 +487,27 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
+// Also update on scroll to keep cursor visible
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    // Force cursor to stay visible during scroll
+    if (cursorInitialized) {
+        cursor.style.opacity = '1';
+        cursor.style.visibility = 'visible';
+    }
+
+    // Clear any pending timeout
+    clearTimeout(scrollTimeout);
+
+    // Set a timeout to ensure cursor stays visible
+    scrollTimeout = setTimeout(() => {
+        if (cursorInitialized) {
+            cursor.style.opacity = '1';
+            cursor.style.visibility = 'visible';
+        }
+    }, 50);
+}, { passive: true });
+
 const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
 let cursorScale = 1;
 
