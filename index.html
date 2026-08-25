@@ -1,535 +1,483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full antialiased">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Farru</title>
+  <meta name="description"
+    content="passionate developer creating products used by millions of users and thousands of guilds." />
+  <link rel="icon" href="profile.jpg" sizes="256x256" type="image/x-icon" />
 
-    <!-- Security Headers (Fallback for browsers that don't support _headers file) -->
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Google Fonts for exact typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap"
+    rel="stylesheet" />
 
-    <!-- SEO & Social Meta Tags -->
-    <meta name="description"
-        content="𝑭𝒂𝒓𝒓𝒖 - Full Stack Developer & UI/UX Designer. Specializing in modern web applications, responsive design, and user-centric digital experiences.">
-    <meta name="keywords" content="full stack developer, web developer, UI/UX designer, React, Node.js, portfolio">
-    <meta name="author" content="𝑭𝒂𝒓𝒓𝒖">
-    <meta property="og:title" content="𝑭𝒂𝒓𝒓𝒖 - Full Stack Developer">
-    <meta property="og:description" content="Creating beautiful, functional web experiences">
-    <meta property="og:type" content="website">
-
-    <title>𝑭𝒂𝒓𝒓𝒖 - Developer & Designer</title>
-    <link rel="stylesheet" href="style.css?v=3.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Compiled CSS from hate.sex -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
-    <!-- Flower Sidebars -->
-    <div class="flower-sidebar left">
-        <svg class="hanging-vine" viewBox="0 0 120 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- Curved vine stem -->
-            <path d="M60,0 Q50,40 55,80 Q60,120 50,160 Q40,200 50,240 Q60,280 55,320 Q50,360 55,400 Q60,440 60,500"
-                stroke="white" stroke-width="2" fill="none" opacity="0.4" />
+<body class="min-h-full flex flex-col">
+  <!-- Exact Fixed Radial Gradient Background (Light Red & Pink Theme) -->
+  <div class="fixed inset-0 pointer-events-none -z-10" style="background:
+          radial-gradient(90% 80% at 83% 4%, rgba(255, 67, 101, 0.22) 0%, rgba(244, 63, 94, 0.10) 35%, rgba(0, 0, 0, 0) 70%),
+          radial-gradient(80% 70% at 18% 85%, rgba(244, 114, 182, 0.16) 0%, rgba(236, 72, 153, 0.08) 38%, rgba(0, 0, 0, 0) 72%),
+          radial-gradient(60% 50% at 50% 45%, rgba(255, 154, 162, 0.05) 0%, rgba(0, 0, 0, 0) 65%),
+          linear-gradient(180deg, #100b0e 0%, #0a0608 45%, #080406 100%)"></div>
 
-            <!-- Leaves alternating -->
-            <ellipse cx="40" cy="60" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 40 60)" />
-            <ellipse cx="70" cy="100" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 70 100)" />
-            <ellipse cx="35" cy="140" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 35 140)" />
-            <ellipse cx="65" cy="180" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 65 180)" />
-            <ellipse cx="40" cy="220" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 40 220)" />
-            <ellipse cx="70" cy="260" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 70 260)" />
-            <ellipse cx="35" cy="300" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 35 300)" />
-            <ellipse cx="65" cy="340" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 65 340)" />
-            <ellipse cx="40" cy="380" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 40 380)" />
-            <ellipse cx="70" cy="420" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 70 420)" />
-        </svg>
+  <main class="relative flex min-h-screen w-full items-center justify-center px-4 py-8">
+    <div class="relative z-10 flex w-full max-w-[410px] flex-col items-center gap-6">
+
+      <!-- HERO SECTION -->
+      <section class="fade-in-up flex flex-col items-center text-center">
+        <h1 class="heading-font avatar-gradient-text text-5xl font-bold tracking-tight" style="line-height:0.95">farru
+        </h1>
+        <p class="mt-3 max-w-sm text-xs leading-relaxed text-zinc-400">passionate developer creating products used by
+          millions of users and thousands of guilds.</p>
+        <div class="mt-4 flex items-center gap-2.5">
+          <a href="https://github.com/bewafa" target="_blank" rel="noreferrer" aria-label="github"
+            class="group flex h-8 w-8 items-center justify-center rounded-full border border-pink-500/15 bg-white/5 text-zinc-400 transition-all hover:border-pink-500/40 hover:bg-pink-500/10 hover:text-pink-100 hover:shadow-[0_0_15px_rgba(244,63,94,0.25)]">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+              class="h-3.5 w-3.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+              </path>
+            </svg>
+          </a>
+          <a href="https://discord.com/users/1522216225478934598" target="_blank" rel="noreferrer" aria-label="discord"
+            class="group flex h-8 w-8 items-center justify-center rounded-full border border-pink-500/15 bg-white/5 text-zinc-400 transition-all hover:border-pink-500/40 hover:bg-pink-500/10 hover:text-pink-100 hover:shadow-[0_0_15px_rgba(244,63,94,0.25)]">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+              class="h-3.5 w-3.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z">
+              </path>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- STATUS CARD -->
+      <section class="fade-in-up delay-2 w-full">
+        <a href="https://discord.com/users/1522216225478934598" id="discordCardLink" target="_blank" rel="noreferrer"
+          class="fade-in-up delay-1 glass-card status-card relative block overflow-hidden px-4 py-3.5 group cursor-pointer transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)]">
+          <img src="static.png" alt=""
+            class="pointer-events-none absolute inset-y-0 right-0 h-full w-full object-cover object-right opacity-50 transition-transform duration-500 group-hover:scale-105"
+            loading="eager" />
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120a0f] via-[#120a0f]/80 to-transparent">
+          </div>
+          <div class="relative flex items-start gap-3 pr-24">
+            <div class="relative h-9 w-9 flex-shrink-0">
+              <div class="h-full w-full overflow-hidden rounded-full bg-pink-500/10 ring-1 ring-pink-500/25">
+                <img src="avatar.png" alt="farru avatar" id="discordAvatar" class="h-full w-full object-cover"
+                  loading="eager" referrerPolicy="no-referrer" />
+              </div>
+              <span id="discordStatusDot"
+                class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#120a0f] shadow-sm bg-[#f0b232]">
+                <span id="discordStatusHole" style="display:none;"
+                  class="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#120a0f]"></span>
+              </span>
+            </div>
+            <div class="min-w-0 flex-1 space-y-1">
+              <div class="flex items-center gap-1.5">
+                <p id="discordUsername"
+                  class="truncate text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">
+                  𝑭𝒂𝒓𝒓𝒖 &lt;/&gt;</p>
+                <span
+                  class="text-[10px] text-pink-400/80 font-mono opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+              </div>
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span id="discordActivityIcon"
+                  class="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center">
+                  <img src="https://cdn.discordapp.com/emojis/1526422001860739192.gif" alt="dil_boostcat" class="h-3.5 w-3.5 object-contain select-none" loading="eager" />
+                </span>
+                <p id="discordStatusText" class="truncate text-[11px] text-zinc-400">𝑺𝒆𝒓𝒗𝒆𝒓 𝒃𝒐𝒐𝒔𝒕 1 𝒎𝒐𝒏𝒕𝒉 / 3 𝒎𝒐𝒏𝒕𝒉 𝒂𝒗𝒂𝒊𝒍𝒂𝒃𝒍𝒆 𝒅𝒎𝒔..</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="fade-in-up delay-3 w-full">
+        <div class="grid gap-2.5 sm:grid-cols-2">
+          <!-- Xieron (Expand on 1st click, Navigate on 2nd click) -->
+          <a href="https://xieron.com/" target="_blank" rel="noreferrer" id="xieronCard"
+            class="glass-card project-card expandable-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)] cursor-pointer">
+            <div class="flex items-center gap-2.5">
+              <span
+                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-pink-500/20 bg-black/40 p-1 group-hover:border-pink-500/40 transition-colors">
+                <img src="xieron-logo.png" alt="Xieron" class="h-full w-full rounded-sm object-contain" loading="lazy"
+                  referrerPolicy="no-referrer" />
+              </span>
+              <div class="min-w-0">
+                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">Xieron <span
+                    class="text-pink-400/90 text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-pink-500/10 border border-pink-500/20">bot</span></p>
+                <p class="text-[10px] text-zinc-500">Active</p>
+              </div>
+              <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-pink-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+            <div class="relative">
+              <p id="xieronDesc" class="expandable-desc text-[11px] leading-relaxed text-zinc-400">Xieron is a powerful all-in-one bot with automod, anti-nuke, welcome messages, roles, giveaways &amp; more. Built for speed and security. Customize everything &amp; protect your server with ease.</p>
+              <div class="mt-1 flex items-center justify-between text-[10px] font-mono text-pink-400/80 select-none">
+                <span id="xieronActionCue" class="transition-colors hover:text-pink-300">click to read more ▾</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Mintone -->
+          <a href="https://mintone.app" target="_blank" rel="noreferrer"
+            class="glass-card project-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)]">
+            <div class="flex items-center gap-2.5">
+              <span
+                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-pink-500/20 bg-black/40 p-1 group-hover:border-pink-500/40 transition-colors">
+                <img src="mintone-logo.png" alt="Mintone" class="h-full w-full rounded-sm object-contain" loading="lazy"
+                  referrerPolicy="no-referrer" />
+              </span>
+              <div class="min-w-0">
+                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">Mintone <span
+                    class="text-pink-400/90 text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-pink-500/10 border border-pink-500/20">bot</span></p>
+                <p class="text-[10px] text-zinc-500">Live</p>
+              </div>
+              <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-pink-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+            <p class="text-[11px] leading-relaxed text-zinc-400">A user-friendly music app made for high quality streaming and multi-platform support.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- SKILLS MARQUEE -->
+      <section class="fade-in-up delay-4 w-full marquee-wrap">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <!-- PostgreSQL -->
+            <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772">
+                  </path>
+                </svg>
+              </span>PostgreSQL
+            </a>
+
+            <!-- Redis -->
+            <a href="https://redis.io" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M22.71 13.145c-1.66 2.092-3.452 4.483-7.038 4.483-3.203 0-4.397-2.825-4.48-5.12.701 1.484 2.073 2.685 4.214 2.63 4.117-.133 6.94-3.852 6.94-7.239 0-4.05-3.022-6.972-8.268-6.972-3.752 0-8.4 1.428-11.455 3.685C2.59 6.937 3.885 9.958 4.35 9.626c2.648-1.904 4.748-3.13 6.784-3.744C8.12 9.244.886 17.05 0 18.425c.1 1.261 1.66 4.648 2.424 4.648.232 0 .431-.133.664-.365a100.49 100.49 0 0 0 5.54-6.765c.222 3.104 1.748 6.898 6.014 6.898 3.819 0 7.604-2.756 9.33-8.965.2-.764-.73-1.361-1.261-.73z">
+                  </path>
+                </svg>
+              </span>Redis
+            </a>
+
+            <!-- Docker -->
+            <a href="https://www.docker.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185">
+                  </path>
+                </svg>
+              </span>Docker
+            </a>
+
+            <!-- Git -->
+            <a href="https://git-scm.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187">
+                  </path>
+                </svg>
+              </span>Git
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+                  </path>
+                </svg>
+              </span>GitHub
+            </a>
+
+            <!-- Vercel -->
+            <a href="https://vercel.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path d="m12 1.608 12 20.784H0Z"></path>
+                </svg>
+              </span>Vercel
+            </a>
+
+            <!-- Cloudflare -->
+            <a href="https://cloudflare.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268z">
+                  </path>
+                </svg>
+              </span>Cloudflare
+            </a>
+
+            <!-- Python -->
+            <a href="https://www.python.org" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09z">
+                  </path>
+                </svg>
+              </span>Python
+            </a>
+
+            <!-- FastAPI -->
+            <a href="https://fastapi.tiangolo.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 .0387C5.3729.0384.0003 5.3931 0 11.9988c-.001 6.6066 5.372 11.9628 12 11.9625 6.628.0003 12.001-5.3559 12-11.9625-.0003-6.6057-5.3729-11.9604-12-11.96m-.829 5.4153h7.55l-7.5805 5.3284h5.1828L5.279 18.5436q2.9466-6.5444 5.892-13.0896">
+                  </path>
+                </svg>
+              </span>FastAPI
+            </a>
+
+            <!-- Flask -->
+            <a href="https://flask.palletsprojects.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10.773 2.878c-.013 1.434.322 4.624.445 5.734l-8.558 3.83c-.56-.959-.98-2.304-1.237-3.38l-.06.027c-.205.09-.406.053-.494-.088l-.011-.018-.82-1.506c-.058-.105-.05-.252.024-.392a.78.78 0 0 1 .358-.331l9.824-4.207c.146-.064.299-.063.4.004.106.062.127.128.13.327Zm.68 7c.523 1.97.675 2.412.832 2.818l-7.263 3.7a19.35 19.35 0 0 1-1.81-2.83l8.24-3.689Z">
+                  </path>
+                </svg>
+              </span>Flask
+            </a>
+
+            <!-- Sentry -->
+            <a href="https://sentry.io" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.91 2.505c-.873-1.448-2.972-1.448-3.844 0L6.904 7.92a15.478 15.478 0 0 1 8.53 12.811h-2.221A13.301 13.301 0 0 0 5.784 9.814l-2.926 5.06a7.65 7.65 0 0 1 4.435 5.848H2.194a.365.365 0 0 1-.298-.534l1.413-2.402a5.16 5.16 0 0 0-1.614-.913L.296 19.275a2.182 2.182 0 0 0 .812 2.999 2.24 2.24 0 0 0 1.086.288h6.983a9.322 9.322 0 0 0-3.845-8.318l1.11-1.922a11.47 11.47 0 0 1 4.95 10.24h5.915a17.242 17.242 0 0 0-7.885-15.28l2.244-3.845a.37.37 0 0 1 .504-.13c.255.14 9.75 16.708 9.928 16.9a.365.365 0 0 1-.327.543h-2.287c.029.612.029 1.223 0 1.831h2.297a2.206 2.206 0 0 0 1.922-3.31z">
+                  </path>
+                </svg>
+              </span>Sentry
+            </a>
+          </div>
+
+          <div class="marquee-group" aria-hidden="true">
+            <!-- PostgreSQL -->
+            <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772">
+                  </path>
+                </svg>
+              </span>PostgreSQL
+            </a>
+
+            <!-- Redis -->
+            <a href="https://redis.io" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M22.71 13.145c-1.66 2.092-3.452 4.483-7.038 4.483-3.203 0-4.397-2.825-4.48-5.12.701 1.484 2.073 2.685 4.214 2.63 4.117-.133 6.94-3.852 6.94-7.239 0-4.05-3.022-6.972-8.268-6.972-3.752 0-8.4 1.428-11.455 3.685C2.59 6.937 3.885 9.958 4.35 9.626c2.648-1.904 4.748-3.13 6.784-3.744C8.12 9.244.886 17.05 0 18.425c.1 1.261 1.66 4.648 2.424 4.648.232 0 .431-.133.664-.365a100.49 100.49 0 0 0 5.54-6.765c.222 3.104 1.748 6.898 6.014 6.898 3.819 0 7.604-2.756 9.33-8.965.2-.764-.73-1.361-1.261-.73z">
+                  </path>
+                </svg>
+              </span>Redis
+            </a>
+
+            <!-- Docker -->
+            <a href="https://www.docker.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185">
+                  </path>
+                </svg>
+              </span>Docker
+            </a>
+
+            <!-- Git -->
+            <a href="https://git-scm.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187">
+                  </path>
+                </svg>
+              </span>Git
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+                  </path>
+                </svg>
+              </span>GitHub
+            </a>
+
+            <!-- Vercel -->
+            <a href="https://vercel.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path d="m12 1.608 12 20.784H0Z"></path>
+                </svg>
+              </span>Vercel
+            </a>
+
+            <!-- Cloudflare -->
+            <a href="https://cloudflare.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268z">
+                  </path>
+                </svg>
+              </span>Cloudflare
+            </a>
+
+            <!-- Python -->
+            <a href="https://www.python.org" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09z">
+                  </path>
+                </svg>
+              </span>Python
+            </a>
+
+            <!-- FastAPI -->
+            <a href="https://fastapi.tiangolo.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 .0387C5.3729.0384.0003 5.3931 0 11.9988c-.001 6.6066 5.372 11.9628 12 11.9625 6.628.0003 12.001-5.3559 12-11.9625-.0003-6.6057-5.3729-11.9604-12-11.96m-.829 5.4153h7.55l-7.5805 5.3284h5.1828L5.279 18.5436q2.9466-6.5444 5.892-13.0896">
+                  </path>
+                </svg>
+              </span>FastAPI
+            </a>
+
+            <!-- Flask -->
+            <a href="https://flask.palletsprojects.com" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10.773 2.878c-.013 1.434.322 4.624.445 5.734l-8.558 3.83c-.56-.959-.98-2.304-1.237-3.38l-.06.027c-.205.09-.406.053-.494-.088l-.011-.018-.82-1.506c-.058-.105-.05-.252.024-.392a.78.78 0 0 1 .358-.331l9.824-4.207c.146-.064.299-.063.4.004.106.062.127.128.13.327Zm.68 7c.523 1.97.675 2.412.832 2.818l-7.263 3.7a19.35 19.35 0 0 1-1.81-2.83l8.24-3.689Z">
+                  </path>
+                </svg>
+              </span>Flask
+            </a>
+
+            <!-- Sentry -->
+            <a href="https://sentry.io" target="_blank" rel="noreferrer"
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              <span
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
+                  class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.91 2.505c-.873-1.448-2.972-1.448-3.844 0L6.904 7.92a15.478 15.478 0 0 1 8.53 12.811h-2.221A13.301 13.301 0 0 0 5.784 9.814l-2.926 5.06a7.65 7.65 0 0 1 4.435 5.848H2.194a.365.365 0 0 1-.298-.534l1.413-2.402a5.16 5.16 0 0 0-1.614-.913L.296 19.275a2.182 2.182 0 0 0 .812 2.999 2.24 2.24 0 0 0 1.086.288h6.983a9.322 9.322 0 0 0-3.845-8.318l1.11-1.922a11.47 11.47 0 0 1 4.95 10.24h5.915a17.242 17.242 0 0 0-7.885-15.28l2.244-3.845a.37.37 0 0 1 .504-.13c.255.14 9.75 16.708 9.928 16.9a.365.365 0 0 1-.327.543h-2.287c.029.612.029 1.223 0 1.831h2.297a2.206 2.206 0 0 0 1.922-3.31z">
+                  </path>
+                </svg>
+              </span>Sentry
+            </a>
+          </div>
+        </div>
+      </section>
+
     </div>
-    <div class="flower-sidebar right">
-        <svg class="hanging-vine" viewBox="0 0 120 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- Curved vine stem (mirrored) -->
-            <path d="M60,0 Q70,40 65,80 Q60,120 70,160 Q80,200 70,240 Q60,280 65,320 Q70,360 65,400 Q60,440 60,500"
-                stroke="white" stroke-width="2" fill="none" opacity="0.4" />
+  </main>
 
-            <!-- Leaves alternating (mirrored) -->
-            <ellipse cx="80" cy="60" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 80 60)" />
-            <ellipse cx="50" cy="100" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 50 100)" />
-            <ellipse cx="85" cy="140" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 85 140)" />
-            <ellipse cx="55" cy="180" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 55 180)" />
-            <ellipse cx="80" cy="220" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 80 220)" />
-            <ellipse cx="50" cy="260" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 50 260)" />
-            <ellipse cx="85" cy="300" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 85 300)" />
-            <ellipse cx="55" cy="340" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 55 340)" />
-            <ellipse cx="80" cy="380" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(30 80 380)" />
-            <ellipse cx="50" cy="420" rx="8" ry="14" fill="white" opacity="0.6" transform="rotate(-30 50 420)" />
-        </svg>
-    </div>
-
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link active"><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg></span>Home</a></li>
-                <li><a href="#about" class="nav-link"><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg></span>About</a></li>
-                <li><a href="#work" class="nav-link"><span class="icon"><svg viewBox="0 0 24 24">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                            </svg></span>Work</a></li>
-                <li><a href="#skills" class="nav-link"><span class="icon"><svg viewBox="0 0 24 24">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg></span>Skills</a></li>
-                <li><a href="#contact" class="nav-link"><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                </path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg></span>Contact</a></li>
-            </ul>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                <span class="menu-icon"></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-label"><span class="icon"><svg viewBox="0 0 24 24">
-                        <path d="M5.5 11c1.5-2.5 3.5-4 6.5-4s5 1.5 6.5 4"></path>
-                        <path d="M3.5 15c2-3.5 5-5.5 8.5-5.5s6.5 2 8.5 5.5"></path>
-                        <circle cx="12" cy="19" r="1"></circle>
-                    </svg></span>Hi, I'm</div>
-            <h1 class="hero-title">𝑭𝒂𝒓𝒓𝒖</h1>
-            <p class="hero-subtitle"><span class="icon"><svg viewBox="0 0 24 24">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <line x1="8" y1="21" x2="16" y2="21"></line>
-                        <line x1="12" y1="17" x2="12" y2="21"></line>
-                    </svg></span>Full Stack Developer & Creative Technologist</p>
-            <p class="hero-description">
-                I build scalable web applications and design intuitive user experiences.
-                Currently focused on React, Node.js, and cloud architecture.
-            </p>
-            <div class="cta-buttons">
-                <a href="#work" class="btn btn-primary">
-                    <span><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
-                                </path>
-                            </svg></span>View Projects</span>
-                </a>
-                <a href="#contact" class="btn btn-secondary">
-                    <span><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg></span>Let's Talk</span>
-                </a>
-            </div>
-            <div class="hero-scroll-indicator">
-                <span>Scroll to explore</span>
-                <div class="scroll-arrow"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <div class="section-header">
-            <h2 class="section-title"><span class="icon icon-lg"><svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg></span>About Me</h2>
-            <p class="section-subtitle">Building digital products for 5+ years</p>
-        </div>
-        <div class="about-content">
-            <div class="about-image">
-                <div class="about-image-inner">
-                    <div class="profile-placeholder">
-                        <img src="profile.jpg" alt="𝑭𝒂𝒓𝒓𝒖 Profile Picture"
-                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
-                    </div>
-                </div>
-            </div>
-            <div class="about-text">
-                <p>
-                    <span class="icon"><svg viewBox="0 0 24 24">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg></span>I'm a full-stack developer based in Uttar Pradesh, India, passionate about creating
-                    web applications that make a difference. My journey started with a curiosity
-                    about how things work on the internet, and it's evolved into a career building
-                    products used by thousands of people daily.
-                </p>
-                <p>
-                    <span class="icon"><svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path
-                                d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24">
-                            </path>
-                        </svg></span>I specialize in JavaScript ecosystems—React for frontends, Node.js for backends,
-                    and everything in between. I've worked with startups and established companies,
-                    helping them ship features faster while maintaining code quality.
-                </p>
-                <p>
-                    <span class="icon"><svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <circle cx="12" cy="12" r="6"></circle>
-                            <circle cx="12" cy="12" r="2"></circle>
-                        </svg></span>Beyond coding, I'm an advocate for clean code, accessibility, and user-centered
-                    design. I believe the best products are built when engineering and design work
-                    hand in hand.
-                </p>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">5+</div>
-                        <div class="stat-label"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg></span>Years Experience</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">30+</div>
-                        <div class="stat-label"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                </svg></span>Projects Completed</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Work Section -->
-    <section id="work">
-        <div class="section-header">
-            <h2 class="section-title"><span class="icon icon-lg"><svg viewBox="0 0 24 24">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                    </svg></span>Featured Work</h2>
-            <p class="section-subtitle">Recent projects I'm proud of</p>
-        </div>
-        <div class="projects-grid">
-            <article class="project-card">
-                <div class="project-image project-img-1">
-                    <div class="project-overlay">
-                        <span class="project-category"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                                    <line x1="7" y1="2" x2="7" y2="22"></line>
-                                    <line x1="17" y1="2" x2="17" y2="22"></line>
-                                    <line x1="2" y1="12" x2="22" y2="12"></line>
-                                    <line x1="2" y1="7" x2="7" y2="7"></line>
-                                    <line x1="2" y1="17" x2="7" y2="17"></line>
-                                    <line x1="17" y1="17" x2="22" y2="17"></line>
-                                    <line x1="17" y1="7" x2="22" y2="7"></line>
-                                </svg></span>Creative Editing</span>
-                    </div>
-                </div>
-                <div class="project-content">
-                    <h3><span class="icon"><svg viewBox="0 0 24 24">
-                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                            </svg></span>Video / Photo Editor</h3>
-                    <p>Professional video editing and photo manipulation using industry-standard creative software.
-                        Creating stunning visuals, cinematic videos, and polished content with Adobe Premiere, After
-                        Effects, Photoshop, and DaVinci Resolve.</p>
-                    <div class="project-tags">
-                        <span class="tag">Premiere Pro</span>
-                        <span class="tag">After Effects</span>
-                        <span class="tag">Photoshop</span>
-                        <span class="tag">DaVinci</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="project-card">
-                <div class="project-image project-img-2">
-                    <img src="xieron-logo.png" alt="Xieron" class="xieron-logo">
-                    <div class="project-overlay">
-                        <span class="project-category"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg></span>Team Info</span>
-                    </div>
-                </div>
-                <div class="project-content">
-                    <h3><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg></span>Xieron</h3>
-                    <p>A powerful Discord bot project where I serve as admin, managing and developing features to
-                        enhance
-                        server functionality and community engagement.</p>
-                    <div class="project-tags">
-                        <span class="tag">Discord Bot</span>
-                        <span class="tag">Admin</span>
-                        <span class="tag">Community</span>
-                        <span class="tag">Management</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="project-card">
-                <div class="project-image project-img-3">
-                    <div class="project-overlay">
-                        <span class="project-category"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                                </svg></span>Bot Development</span>
-                    </div>
-                </div>
-                <div class="project-content">
-                    <h3><span class="icon"><svg viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg></span>Discord Bot Development</h3>
-                    <p>Specialized in creating powerful Discord bots using discord.js and discord.py. Building custom
-                        commands, moderation systems, and interactive features for Discord communities.</p>
-                    <div class="project-tags">
-                        <span class="tag">Discord.js</span>
-                        <span class="tag">Discord.py</span>
-                        <span class="tag">Node.js</span>
-                        <span class="tag">Python</span>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="section-header">
-            <h2 class="section-title"><span class="icon icon-lg"><svg viewBox="0 0 24 24">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg></span>Skills & Technologies</h2>
-            <p class="section-subtitle">Tools I work with daily</p>
-        </div>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3 class="skill-category-title"><span class="icon"><svg viewBox="0 0 24 24">
-                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-                        </svg></span>Frontend</h3>
-                <div class="skill-list">
-                    <div class="skill-item">
-                        <span class="skill-name">React / Next.js</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">TypeScript</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">CSS / Tailwind</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 92%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="skill-category">
-                <h3 class="skill-category-title"><span class="icon"><svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path
-                                d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24">
-                            </path>
-                        </svg></span>Backend</h3>
-                <div class="skill-list">
-                    <div class="skill-item">
-                        <span class="skill-name">Node.js / Express</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 88%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">PostgreSQL / MongoDB</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">REST / GraphQL APIs</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 90%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="skill-category">
-                <h3 class="skill-category-title"><span class="icon"><svg viewBox="0 0 24 24">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg></span>DevOps & Tools</h3>
-                <div class="skill-list">
-                    <div class="skill-item">
-                        <span class="skill-name">AWS / Vercel</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 82%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Docker / CI/CD</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Git / GitHub</span>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="width: 95%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="section-header">
-            <h2 class="section-title"><span class="icon icon-lg"><svg viewBox="0 0 24 24">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg></span>Let's Work Together</h2>
-            <p class="section-subtitle">Have a project in mind? Let's talk</p>
-        </div>
-        <div class="contact-content">
-            <form class="contact-form" id="contactForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg></span>Name</label>
-                        <input type="text" id="name" name="name" required placeholder="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label for="email"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                    </path>
-                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                </svg></span>Email</label>
-                        <input type="email" id="email" name="email" required placeholder="john@example.com">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="subject"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg></span>Subject</label>
-                    <input type="text" id="subject" name="subject" required placeholder="Project Inquiry">
-                </div>
-                <div class="form-group">
-                    <label for="message"><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg></span>Message</label>
-                    <textarea id="message" name="message" required
-                        placeholder="Tell me about your project..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-submit">
-                    <span><span class="icon"><svg viewBox="0 0 24 24">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg></span>Send Message</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M18 2L9 11M18 2L12 18L9 11M18 2L2 8L9 11" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </form>
-
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4>Email</h4>
-                        <a href="mailto:notfarruxd@gmail.com">notfarruxd@gmail.com</a>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8Z"
-                                stroke="currentColor" stroke-width="2" />
-                            <path d="M3 21C3 17.134 7.02944 14 12 14C16.9706 14 21 17.134 21 21" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4>Location</h4>
-                        <p><span class="icon icon-sm"><svg viewBox="0 0 24 24">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg></span>Uttar Pradesh, India</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="social-links">
-                <a href="https://www.instagram.com/farxru/" target="_blank" rel="noopener" class="social-link"
-                    id="instagram-link" aria-label="Instagram" title="Instagram">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                    </svg>
-                </a>
-                <a href="https://discord.gg/WwPRfftKtU" target="_blank" rel="noopener" class="social-link"
-                    id="discord-link" aria-label="Discord" title="Discord">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
-                    </svg>
-                </a>
-                <a href="https://youtube.com/@farru_playz?si=hqp10x_1k02tBDEe" target="_blank" rel="noopener"
-                    class="social-link" id="youtube-link" aria-label="YouTube" title="YouTube">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>© 2024 𝑭𝒂𝒓𝒓𝒖. Built with passion and lots of coffee <span class="icon icon-sm"><svg
-                        viewBox="0 0 24 24">
-                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                        <line x1="6" y1="1" x2="6" y2="4"></line>
-                        <line x1="10" y1="1" x2="10" y2="4"></line>
-                        <line x1="14" y1="1" x2="14" y2="4"></line>
-                    </svg></span></p>
-            <p class="footer-note">Designed & Developed by 𝑭𝒂𝒓𝒓𝒖</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

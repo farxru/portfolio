@@ -1,716 +1,264 @@
-// ============================================
-// SECURITY LAYER - DDoS & Attack Protection
-// ============================================
+/**
+ * ==============================================================================
+ * hate.sex Aesthetic - Interactive & Real-Time Presence Logic
+ * ==============================================================================
+ */
 
-// CSRF Token Generation and Management
-const SecurityManager = {
-    csrfToken: null,
-    requestLog: [],
-    maxRequestsPerMinute: 10,
-    blockedIPs: new Set(),
+// Configure your Discord User ID for live status & avatar sync via Lanyard
+// To connect your real-time status:
+// 1. Enter your Discord User ID below.
+// 2. Make sure you have joined the Lanyard Discord server (https://discord.gg/lanyard).
+const DISCORD_USER_ID = "1522216225478934598";
 
-    // Generate CSRF token
-    generateCSRFToken() {
-        const array = new Uint8Array(32);
-        crypto.getRandomValues(array);
-        this.csrfToken = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
-        sessionStorage.setItem('csrf_token', this.csrfToken);
-        return this.csrfToken;
-    },
+class DiscordPresenceManager {
+  constructor(userId) {
+    this.userId = userId;
+    this.ws = null;
+    this.heartbeatInterval = null;
+    this.dom = {
+      cardLink: document.getElementById('discordCardLink'),
+      avatar: document.getElementById('discordAvatar'),
+      statusDot: document.getElementById('discordStatusDot'),
+      username: document.getElementById('discordUsername'),
+      statusText: document.getElementById('discordStatusText'),
+      activityIcon: document.getElementById('discordActivityIcon'),
+      bgImg: document.getElementById('statusCardBg'),
+      spotifyContainer: document.getElementById('spotifyContainer'),
+      spotifyArt: document.getElementById('spotifyArt'),
+      spotifyTitle: document.getElementById('spotifyTitle'),
+      spotifyArtist: document.getElementById('spotifyArtist'),
+    };
+  }
 
-    // Validate CSRF token
-    validateCSRFToken(token) {
-        return token === this.csrfToken || token === sessionStorage.getItem('csrf_token');
-    },
+  init() {
+    if (this.userId && this.dom.cardLink) {
+      this.dom.cardLink.href = `https://discord.com/users/${this.userId}`;
+    }
 
-    // Rate limiting - Prevent DDoS
-    checkRateLimit() {
-        const now = Date.now();
-        const oneMinuteAgo = now - 60000;
+    // Restore cached presence instantly for zero-flicker on refresh
+    try {
+      const cached = localStorage.getItem('farru_discord_presence');
+      if (cached) {
+        this.updateUI(JSON.parse(cached));
+      }
+    } catch (e) {}
 
-        // Clean old requests
-        this.requestLog = this.requestLog.filter(timestamp => timestamp > oneMinuteAgo);
+    // Initial fetch via REST for instant load
+    this.fetchRestPresence();
+    // Connect WebSocket for real-time live presence updates
+    this.connectWebSocket();
+  }
 
-        // Check if limit exceeded
-        if (this.requestLog.length >= this.maxRequestsPerMinute) {
-            console.warn('⚠️ Rate limit exceeded. Please slow down.');
-            return false;
-        }
+  async fetchRestPresence() {
+    if (!this.userId) return;
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${this.userId}`);
+      const json = await res.json();
+      if (json.success && json.data) {
+        this.updateUI(json.data);
+      }
+    } catch (e) {
+      console.log('Lanyard REST fallback initialized:', e.message);
+    }
+  }
 
-        // Log this request
-        this.requestLog.push(now);
-        return true;
-    },
+  connectWebSocket() {
+    if (!this.userId) return;
 
-    // Input sanitization - Prevent XSS
-    sanitizeInput(input) {
-        if (typeof input !== 'string') return input;
+    try {
+      this.ws = new WebSocket('wss://api.lanyard.rest/socket');
 
-        const div = document.createElement('div');
-        div.textContent = input;
-        let sanitized = div.innerHTML;
+      this.ws.onopen = () => {
+        // Socket connection opened
+      };
 
-        // Additional sanitization
-        sanitized = sanitized
-            .replace(/[<>]/g, '')
-            .replace(/javascript:/gi, '')
-            .replace(/on\w+=/gi, '')
-            .replace(/eval\(/gi, '')
-            .replace(/script/gi, '');
+      this.ws.onmessage = (event) => {
+        try {
+          const payload = JSON.parse(event.data);
+          const { op, t, d } = payload;
 
-        return sanitized.trim();
-    },
+          if (op === 1) {
+            // Hello opcode -> setup heartbeat and send subscribe
+            const interval = d.heartbeat_interval;
+            this.startHeartbeat(interval);
 
-    // Validate email format
-    validateEmail(email) {
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailRegex.test(email) && email.length <= 254;
-    },
-
-    // Bot detection - Check for suspicious behavior
-    detectBot() {
-        const checks = {
-            hasWebdriver: navigator.webdriver === true,
-            hasPhantom: window.phantom !== undefined,
-            hasCallPhantom: window.callPhantom !== undefined,
-            hasSuspiciousPlugins: navigator.plugins.length === 0,
-            hasSuspiciousLanguages: navigator.languages.length === 0,
-            automationDetected: false
-        };
-
-        // Check for automation
-        if (navigator.webdriver || window.phantom || window.callPhantom) {
-            checks.automationDetected = true;
-        }
-
-        return checks.automationDetected;
-    },
-
-    // Initialize security
-    init() {
-        this.generateCSRFToken();
-
-        // Detect and log suspicious activity
-        if (this.detectBot()) {
-            console.warn('🤖 Automated browser detected');
-        }
-
-        // Monitor for suspicious activity
-        this.monitorSuspiciousActivity();
-    },
-
-    // Monitor for suspicious patterns
-    monitorSuspiciousActivity() {
-        let clickCount = 0;
-        let lastClickTime = 0;
-
-        document.addEventListener('click', () => {
-            const now = Date.now();
-            if (now - lastClickTime < 100) {
-                clickCount++;
-                if (clickCount > 10) {
-                    console.warn('⚠️ Suspicious clicking pattern detected');
-                }
-            } else {
-                clickCount = 0;
+            this.ws.send(JSON.stringify({
+              op: 2,
+              d: {
+                subscribe_to_id: this.userId
+              }
+            }));
+          } else if (op === 0) {
+            // Event opcode
+            if (t === 'INIT_STATE' || t === 'PRESENCE_UPDATE') {
+              this.updateUI(d);
             }
-            lastClickTime = now;
-        });
-    }
-};
-
-// Initialize security on page load
-SecurityManager.init();
-
-// Copy Protection - Disable right-click, copy, cut, paste
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-document.addEventListener('copy', (e) => e.preventDefault());
-document.addEventListener('cut', (e) => e.preventDefault());
-document.addEventListener('paste', (e) => e.preventDefault());
-document.addEventListener('selectstart', (e) => e.preventDefault());
-
-// Disable keyboard shortcuts for copy/paste/save
-document.addEventListener('keydown', (e) => {
-    // Disable Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+A, Ctrl+S, Ctrl+U, F12, Ctrl+Shift+I
-    if (
-        (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
-        (e.ctrlKey && (e.key === 'x' || e.key === 'X')) ||
-        (e.ctrlKey && (e.key === 'v' || e.key === 'V')) ||
-        (e.ctrlKey && (e.key === 'a' || e.key === 'A')) ||
-        (e.ctrlKey && (e.key === 's' || e.key === 'S')) ||
-        (e.ctrlKey && (e.key === 'u' || e.key === 'U')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'j' || e.key === 'J')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'c' || e.key === 'C')) ||
-        e.key === 'F12'
-    ) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// Click/Touch Ripple Effect
-function createRipple(e) {
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple-effect';
-
-    // Get click/touch position
-    const x = e.clientX || (e.touches && e.touches[0].clientX);
-    const y = e.clientY || (e.touches && e.touches[0].clientY);
-
-    ripple.style.left = x + 'px';
-    ripple.style.top = y + 'px';
-
-    document.body.appendChild(ripple);
-
-    // Remove ripple after animation
-    setTimeout(() => {
-        ripple.remove();
-    }, 600);
-}
-
-// Add ripple effect on click and touch
-document.addEventListener('click', createRipple);
-document.addEventListener('touchstart', createRipple);
-
-// Smooth scroll navigation with offset for fixed navbar
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+          }
+        } catch (err) {
+          console.error('Error handling Lanyard payload', err);
         }
-    });
-});
+      };
 
-// Navigation scroll effect
-const navbar = document.getElementById('navbar');
-let lastScroll = 0;
+      this.ws.onclose = () => {
+        clearInterval(this.heartbeatInterval);
+        // Reconnect with exponential backoff after 5 seconds
+        setTimeout(() => this.connectWebSocket(), 5000);
+      };
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+      this.ws.onerror = () => {
+        if (this.ws) this.ws.close();
+      };
+    } catch (err) {
+      console.log('Lanyard socket connection skipped:', err);
+    }
+  }
 
-    if (currentScroll > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+  startHeartbeat(interval) {
+    clearInterval(this.heartbeatInterval);
+    this.heartbeatInterval = setInterval(() => {
+      if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+        this.ws.send(JSON.stringify({ op: 3 }));
+      }
+    }, interval);
+  }
+
+  updateUI(data) {
+    if (!data) return;
+
+    try {
+      localStorage.setItem('farru_discord_presence', JSON.stringify(data));
+    } catch (e) {}
+
+    const { discord_user, discord_status, activities, spotify } = data;
+
+    // 1. Update Avatar
+    if (discord_user && discord_user.avatar) {
+      const isGif = discord_user.avatar.startsWith('a_');
+      const ext = isGif ? 'gif' : 'png';
+      const avatarUrl = `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.${ext}?size=128`;
+      if (this.dom.avatar) {
+        this.dom.avatar.src = avatarUrl;
+      }
     }
 
-    lastScroll = currentScroll;
-});
+    // 2. Update Status Indicator Dot
+    const statusHole = document.getElementById('discordStatusHole');
+    if (this.dom.statusDot && discord_status) {
+      const colorMap = {
+        online: 'bg-[#23a55a]',
+        idle: 'bg-[#f0b232]',
+        dnd: 'bg-[#f23f43]',
+        offline: 'bg-[#80848e]'
+      };
 
-// Active navigation link highlighting
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-link');
+      // Base classes
+      this.dom.statusDot.className = `absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#120a0f] shadow-sm ${colorMap[discord_status] || 'bg-[#80848e]'}`;
 
-function highlightNavigation() {
-    let current = '';
+      if (statusHole) {
+        statusHole.style.display = (discord_status === 'offline') ? 'block' : 'none';
+      }
+    }
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.clientHeight;
+    // 3. Update Username
+    if (this.dom.username && discord_user) {
+      const displayName = discord_user.global_name || discord_user.username || 'farru';
+      this.dom.username.textContent = displayName;
+    }
 
-        if (window.pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
+    // 4. Update Activity / Custom Status Text & Emoji
+    if (this.dom.statusText) {
+      let statusText = 'building scalable systems & bots';
+      let iconHtml = `
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="h-2.5 w-2.5 text-pink-300" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path>
+        </svg>`;
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-}
+      if (activities && activities.length > 0) {
+        // Find custom status (type 4) or game/music/streaming
+        const customStatus = activities.find(a => a.type === 4);
+        const gameStatus = activities.find(a => a.type === 0 || a.type === 1 || a.type === 3);
 
-window.addEventListener('scroll', highlightNavigation);
-
-// Mobile menu toggle
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const navLinksContainer = document.getElementById('navLinks');
-
-if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinksContainer.classList.toggle('active');
-        mobileMenuBtn.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinksContainer.classList.remove('active');
-            mobileMenuBtn.classList.remove('active');
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav')) {
-            navLinksContainer.classList.remove('active');
-            mobileMenuBtn.classList.remove('active');
-        }
-    });
-}
-
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-
-            // Animate skill bars when they come into view
-            if (entry.target.classList.contains('skill-category')) {
-                const progressBars = entry.target.querySelectorAll('.skill-progress');
-                progressBars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0%';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 100);
-                });
+        if (customStatus) {
+          statusText = customStatus.state || 'chilling';
+          if (customStatus.emoji) {
+            if (customStatus.emoji.id) {
+              const isGif = customStatus.emoji.animated;
+              const ext = isGif ? 'gif' : 'png';
+              const emojiUrl = `https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.${ext}?size=48&quality=lossless`;
+              iconHtml = `<img src="${emojiUrl}" alt="${customStatus.emoji.name || 'emoji'}" class="h-3.5 w-3.5 object-contain select-none" loading="eager" />`;
+            } else if (customStatus.emoji.name) {
+              iconHtml = `<span class="text-xs leading-none select-none">${customStatus.emoji.name}</span>`;
             }
+          }
+        } else if (gameStatus && gameStatus.name) {
+          statusText = `Playing ${gameStatus.name}`;
+          iconHtml = `<span class="text-xs leading-none select-none">🎮</span>`;
         }
+      }
+
+      this.dom.statusText.textContent = statusText;
+      if (this.dom.activityIcon) {
+        this.dom.activityIcon.innerHTML = iconHtml;
+      }
+    }
+
+    // 5. Update Spotify Tracker
+    if (this.dom.spotifyContainer) {
+      if (spotify && spotify.song) {
+        this.dom.spotifyContainer.style.display = 'flex';
+        if (this.dom.spotifyTitle) this.dom.spotifyTitle.textContent = spotify.song;
+        if (this.dom.spotifyArtist) this.dom.spotifyArtist.textContent = spotify.artist || 'Spotify';
+        if (this.dom.spotifyArt && spotify.album_art_url) {
+          this.dom.spotifyArt.src = spotify.album_art_url;
+        }
+      } else {
+        this.dom.spotifyContainer.style.display = 'none';
+      }
+    }
+  }
+}
+
+// Initialize on DOM Ready
+document.addEventListener('DOMContentLoaded', () => {
+  const presence = new DiscordPresenceManager(DISCORD_USER_ID);
+  presence.init();
+
+  // Subtle interactive parallax for project cards & glass pills
+  const cards = document.querySelectorAll('.project-card, .status-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
     });
-}, observerOptions);
+  });
 
-// Observe elements for animation
-document.querySelectorAll('.project-card, .skill-category, .about-text, .about-image').forEach(el => {
-    observer.observe(el);
-});
-
-// Contact form handling with ENHANCED SECURITY
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {
-    // Add CSRF token to form
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = 'csrf_token';
-    csrfInput.value = SecurityManager.csrfToken;
-    contactForm.appendChild(csrfInput);
-
-    // Add honeypot field (invisible to users, catches bots)
-    const honeypot = document.createElement('input');
-    honeypot.type = 'text';
-    honeypot.name = 'website';
-    honeypot.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;';
-    honeypot.tabIndex = -1;
-    honeypot.autocomplete = 'off';
-    contactForm.appendChild(honeypot);
-
-    contactForm.addEventListener('submit', async (e) => {
+  // Expandable Xieron Card logic (1st click: expand, 2nd click: redirect)
+  const xieronCard = document.getElementById('xieronCard');
+  const xieronActionCue = document.getElementById('xieronActionCue');
+  if (xieronCard) {
+    let isExpanded = false;
+    xieronCard.addEventListener('click', (e) => {
+      if (!isExpanded) {
         e.preventDefault();
-
-        // SECURITY CHECK 1: Rate Limiting
-        if (!SecurityManager.checkRateLimit()) {
-            showNotification('⚠️ Too many requests. Please wait a moment.', 'error');
-            return;
+        isExpanded = true;
+        xieronCard.classList.add('is-expanded');
+        if (xieronActionCue) {
+          xieronActionCue.textContent = 'visit xieron.com ↗';
+          xieronActionCue.className = 'transition-colors text-pink-300 font-semibold';
         }
-
-        // SECURITY CHECK 2: Honeypot (bot detection)
-        const honeypotValue = contactForm.querySelector('input[name="website"]').value;
-        if (honeypotValue) {
-            console.warn('🤖 Bot detected via honeypot');
-            showNotification('Error submitting form', 'error');
-            return;
-        }
-
-        // SECURITY CHECK 3: CSRF Token Validation
-        const csrfToken = contactForm.querySelector('input[name="csrf_token"]').value;
-        if (!SecurityManager.validateCSRFToken(csrfToken)) {
-            showNotification('Security validation failed. Please refresh the page.', 'error');
-            return;
-        }
-
-        const formData = new FormData(contactForm);
-        let name = formData.get('name').trim();
-        let email = formData.get('email').trim();
-        let subject = formData.get('subject').trim();
-        let message = formData.get('message').trim();
-
-        // SECURITY CHECK 4: Input Validation
-        if (!name || !email || !subject || !message) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-
-        // SECURITY CHECK 5: Input Length Validation (prevent overflow attacks)
-        if (name.length > 100 || subject.length > 200 || message.length > 5000) {
-            showNotification('Input too long. Please shorten your message.', 'error');
-            return;
-        }
-
-        // SECURITY CHECK 6: Email Validation
-        if (!SecurityManager.validateEmail(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-
-        // SECURITY CHECK 7: Sanitize all inputs (prevent XSS)
-        name = SecurityManager.sanitizeInput(name);
-        email = SecurityManager.sanitizeInput(email);
-        subject = SecurityManager.sanitizeInput(subject);
-        message = SecurityManager.sanitizeInput(message);
-
-        // SECURITY CHECK 8: Check for spam patterns
-        const spamKeywords = ['viagra', 'casino', 'lottery', 'prize', 'click here', 'buy now'];
-        const messageLC = message.toLowerCase();
-        if (spamKeywords.some(keyword => messageLC.includes(keyword))) {
-            console.warn('⚠️ Spam detected in message');
-            showNotification('Message flagged as spam', 'error');
-            return;
-        }
-
-        // All security checks passed - Create mailto link
-        const mailtoLink = `mailto:notfarruxd@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-        )}`;
-
-        // Open mailto link
-        window.location.href = mailtoLink;
-
-        // Show success message
-        showNotification('✅ Opening your email client...', 'success');
-
-        // Reset form after a short delay
-        setTimeout(() => {
-            contactForm.reset();
-            // Regenerate CSRF token for next submission
-            csrfInput.value = SecurityManager.generateCSRFToken();
-        }, 1000);
+      }
+      // If already expanded, default anchor link opens https://xieron.com/
     });
-}
+  }
 
-// Notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existing = document.querySelector('.notification');
-    if (existing) {
-        existing.remove();
-    }
-
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#6366f1'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        z-index: 10000;
-        animation: slideIn 0.3s ease-out;
-        max-width: 400px;
-        font-weight: 500;
-    `;
-
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-out';
-        setTimeout(() => notification.remove(), 300);
-    }, 4000);
-}
-
-// Add notification animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Removed parallax effect for better performance
-// The effect was causing lag on scroll
-
-// Add smooth reveal on page load
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Custom Cursor - DISABLED (using default Windows cursor)
-// All custom cursor code has been disabled to use the default browser cursor
-
-/*
-const cursor = document.createElement('div');
-cursor.className = 'custom-cursor';
-// Using pure CSS cursor instead of image for better reliability
-cursor.innerHTML = '<div class="cursor-dot"></div>';
-document.body.appendChild(cursor);
-
-let mouseX = 0;
-let mouseY = 0;
-let cursorX = 0;
-let cursorY = 0;
-
-// REMOVED TRAIL EFFECT - was causing lag and DOM bloat
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-
-    // Show cursor on first mouse movement
-    if (!cursorInitialized) {
-        cursorInitialized = true;
-    }
-});
-
-// Also update on scroll to keep cursor visible
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    // Force cursor to stay visible during scroll
-    if (cursorInitialized) {
-        cursor.style.opacity = '1';
-        cursor.style.visibility = 'visible';
-    }
-
-    // Clear any pending timeout
-    clearTimeout(scrollTimeout);
-
-    // Set a timeout to ensure cursor stays visible
-    scrollTimeout = setTimeout(() => {
-        if (cursorInitialized) {
-            cursor.style.opacity = '1';
-            cursor.style.visibility = 'visible';
-        }
-    }, 50);
-}, { passive: true });
-
-const interactiveElements = document.querySelectorAll('a, button, .btn, .project-link, .social-link, .nav-link, input, textarea');
-let cursorScale = 1;
-
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursorScale = 1.6;
-    });
-
-    element.addEventListener('mouseleave', () => {
-        cursorScale = 1;
-    });
-
-    element.addEventListener('mousedown', () => {
-        cursorScale = 1.3;
-    });
-
-    element.addEventListener('mouseup', () => {
-        cursorScale = 1.6;
-    });
-});
-
-// OPTIMIZED cursor animation - instant response, no lag
-let cursorInitialized = false;
-
-function animateCursor() {
-    // Increased ease from 0.4 to 0.9 for near-instant response
-    const ease = 0.9;
-    cursorX += (mouseX - cursorX) * ease;
-    cursorY += (mouseY - cursorY) * ease;
-
-    // Use transform3d for GPU acceleration (prevents disappearing)
-    // Subtract half the cursor size to center it on the mouse
-    cursor.style.transform = `translate3d(${cursorX - 14}px, ${cursorY - 14}px, 0) scale(${cursorScale})`;
-
-    // Keep cursor visible during animation
-    if (cursorInitialized) {
-        cursor.style.opacity = '1';
-        cursor.style.visibility = 'visible';
-    }
-
-    requestAnimationFrame(animateCursor);
-}
-
-// Initialize cursor as hidden
-cursor.style.opacity = '0';
-cursor.style.visibility = 'hidden';
-animateCursor();
-*/
-
-// Add interactive hover effects to project cards
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', function () {
-        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-    });
-
-    // Simplified hover effect for better performance
-    // Removed 3D transforms that were causing lag
-    card.addEventListener('mousemove', function (e) {
-        // Removed heavy 3D perspective transforms
-    });
-
-    card.addEventListener('mouseleave', function () {
-        this.style.transform = '';
-    });
-});
-
-// Lazy loading for images (if you add real images later)
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.classList.add('loaded');
-                    observer.unobserve(img);
-                }
-            }
-        });
-    });
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
-
-// Performance monitoring
-if ('performance' in window) {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            if (perfData) {
-                const loadTime = perfData.loadEventEnd - perfData.fetchStart;
-                console.log(`⚡ Page loaded in ${Math.round(loadTime)}ms`);
-            }
-        }, 0);
-    });
-}
-
-// Add easter egg for developers
-console.log(
-    '%c👋 Hey there, developer!',
-    'font-size: 20px; font-weight: bold; color: #6366f1; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'
-);
-console.log(
-    '%cLike what you see? Let\'s build something together!',
-    'font-size: 14px; color: #8b5cf6;'
-);
-console.log(
-    '%c📧 alex.morgan@example.com',
-    'font-size: 12px; color: #9ca3af;'
-);
-
-// Prevent project links from navigating (since they're placeholders)
-document.querySelectorAll('.project-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        showNotification('This is a portfolio demo. Project details would be shown here.', 'info');
-    });
-});
-
-// Add keyboard navigation
-document.addEventListener('keydown', (e) => {
-    // Press 'h' to go to home
-    if (e.key === 'h' && !e.target.matches('input, textarea')) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Press 'c' to focus contact form
-    if (e.key === 'c' && !e.target.matches('input, textarea')) {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                const firstInput = contactForm.querySelector('input');
-                if (firstInput) firstInput.focus();
-            }, 500);
-        }
-    }
-});
-
-// Add focus visible for accessibility
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-nav');
-    }
-});
-
-document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-nav');
-});
-
-// Smooth scroll to top button (appears after scrolling)
-const scrollToTopBtn = document.createElement('button');
-scrollToTopBtn.innerHTML = `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 19V5M5 12l7-7 7 7"/>
-    </svg>
-`;
-scrollToTopBtn.className = 'scroll-to-top';
-scrollToTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    background: var(--accent-primary);
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    transition: all 0.3s ease;
-    z-index: 999;
-`;
-
-document.body.appendChild(scrollToTopBtn);
-
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 500) {
-        scrollToTopBtn.style.display = 'flex';
-    } else {
-        scrollToTopBtn.style.display = 'none';
-    }
-});
-
-scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-scrollToTopBtn.addEventListener('mouseenter', function () {
-    this.style.transform = 'translateY(-4px)';
-    this.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.5)';
-});
-
-scrollToTopBtn.addEventListener('mouseleave', function () {
-    this.style.transform = '';
-    this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
+  // Global ambient background spotlight tracking
+  window.addEventListener('mousemove', (e) => {
+    const x = Math.round((e.clientX / window.innerWidth) * 100);
+    const y = Math.round((e.clientY / window.innerHeight) * 100);
+    document.documentElement.style.setProperty('--bg-mouse-x', `${x}%`);
+    document.documentElement.style.setProperty('--bg-mouse-y', `${y}%`);
+  }, { passive: true });
 });
