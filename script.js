@@ -1,13 +1,10 @@
 /**
  * ==============================================================================
- * hate.sex Aesthetic - Interactive & Real-Time Presence Logic
+ * Farru - Interactive & Real-Time Presence Logic (White Neon & Glassmorphism)
  * ==============================================================================
  */
 
-// Configure your Discord User ID for live status & avatar sync via Lanyard
-// To connect your real-time status:
-// 1. Enter your Discord User ID below.
-// 2. Make sure you have joined the Lanyard Discord server (https://discord.gg/lanyard).
+// Discord User ID for live status, avatar, and nickname sync via Lanyard
 const DISCORD_USER_ID = "924238447147909172";
 
 class DiscordPresenceManager {
@@ -15,10 +12,14 @@ class DiscordPresenceManager {
     this.userId = userId;
     this.ws = null;
     this.heartbeatInterval = null;
+    this.pollInterval = null;
+    this.hasLivePresence = false;
+    this.storageKey = `farru_presence_v2_${userId}`;
     this.dom = {
       cardLink: document.getElementById('discordCardLink'),
       avatar: document.getElementById('discordAvatar'),
       statusDot: document.getElementById('discordStatusDot'),
+      statusHole: document.getElementById('discordStatusHole'),
       username: document.getElementById('discordUsername'),
       statusText: document.getElementById('discordStatusText'),
       activityIcon: document.getElementById('discordActivityIcon'),
@@ -35,30 +36,48 @@ class DiscordPresenceManager {
       this.dom.cardLink.href = `https://discord.com/users/${this.userId}`;
     }
 
-    // Restore cached presence instantly for zero-flicker on refresh
+    // 1. Purge legacy template cache
     try {
-      const cached = localStorage.getItem('farru_discord_presence');
+      localStorage.removeItem('farru_discord_presence');
+    } catch (e) {}
+
+    // 2. Restore cached presence only if it matches current User ID
+    try {
+      const cached = localStorage.getItem(this.storageKey);
       if (cached) {
-        this.updateUI(JSON.parse(cached));
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.discord_user && String(parsed.discord_user.id) === String(this.userId)) {
+          this.updateUI(parsed, true);
+        }
       }
     } catch (e) {}
 
-    // Initial fetch via REST for instant load
+    // 3. Fetch live presence via REST API
     this.fetchRestPresence();
-    // Connect WebSocket for real-time live presence updates
+
+    // 4. Connect WebSocket for instant real-time live presence updates
     this.connectWebSocket();
+
+    // 5. Periodic polling fallback (every 12 seconds if not yet connected)
+    this.pollInterval = setInterval(() => {
+      if (!this.hasLivePresence) {
+        this.fetchRestPresence();
+      }
+    }, 12000);
   }
 
   async fetchRestPresence() {
     if (!this.userId) return;
     try {
       const res = await fetch(`https://api.lanyard.rest/v1/users/${this.userId}`);
+      if (!res.ok) return;
       const json = await res.json();
       if (json.success && json.data) {
+        this.hasLivePresence = true;
         this.updateUI(json.data);
       }
     } catch (e) {
-      console.log('Lanyard REST fallback initialized:', e.message);
+      // Silently retry on next tick
     }
   }
 
@@ -69,7 +88,7 @@ class DiscordPresenceManager {
       this.ws = new WebSocket('wss://api.lanyard.rest/socket');
 
       this.ws.onopen = () => {
-        // Socket connection opened
+        // Socket opened
       };
 
       this.ws.onmessage = (event) => {
@@ -89,8 +108,9 @@ class DiscordPresenceManager {
               }
             }));
           } else if (op === 0) {
-            // Event opcode
+            // Presence event opcode
             if (t === 'INIT_STATE' || t === 'PRESENCE_UPDATE') {
+              this.hasLivePresence = true;
               this.updateUI(d);
             }
           }
@@ -101,7 +121,7 @@ class DiscordPresenceManager {
 
       this.ws.onclose = () => {
         clearInterval(this.heartbeatInterval);
-        // Reconnect with exponential backoff after 5 seconds
+        // Reconnect after 5 seconds
         setTimeout(() => this.connectWebSocket(), 5000);
       };
 
@@ -122,27 +142,30 @@ class DiscordPresenceManager {
     }, interval);
   }
 
-  updateUI(data) {
+  updateUI(data, isFromCache = false) {
     if (!data) return;
 
-    try {
-      localStorage.setItem('farru_discord_presence', JSON.stringify(data));
-    } catch (e) {}
+    if (!isFromCache) {
+      try {
+        localStorage.setItem(this.storageKey, JSON.stringify(data));
+      } catch (e) {}
+    }
 
     const { discord_user, discord_status, activities, spotify } = data;
 
     // 1. Update Avatar
-    if (discord_user && discord_user.avatar) {
-      const isGif = discord_user.avatar.startsWith('a_');
-      const ext = isGif ? 'gif' : 'png';
-      const avatarUrl = `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.${ext}?size=128`;
-      if (this.dom.avatar) {
-        this.dom.avatar.src = avatarUrl;
+    if (discord_user) {
+      if (discord_user.avatar) {
+        const isGif = discord_user.avatar.startsWith('a_');
+        const ext = isGif ? 'gif' : 'png';
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.${ext}?size=256`;
+        if (this.dom.avatar) {
+          this.dom.avatar.src = avatarUrl;
+        }
       }
     }
 
-    // 2. Update Status Indicator Dot
-    const statusHole = document.getElementById('discordStatusHole');
+    // 2. Update Status Indicator Dot & Offline Ring
     if (this.dom.statusDot && discord_status) {
       const colorMap = {
         online: 'bg-[#23a55a]',
@@ -151,17 +174,16 @@ class DiscordPresenceManager {
         offline: 'bg-[#80848e]'
       };
 
-      // Base classes
-      this.dom.statusDot.className = `absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#120a0f] shadow-sm ${colorMap[discord_status] || 'bg-[#80848e]'}`;
+      this.dom.statusDot.className = `absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#0a0a0e] shadow-sm ${colorMap[discord_status] || 'bg-[#80848e]'}`;
 
-      if (statusHole) {
-        statusHole.style.display = (discord_status === 'offline') ? 'block' : 'none';
+      if (this.dom.statusHole) {
+        this.dom.statusHole.style.display = (discord_status === 'offline') ? 'block' : 'none';
       }
     }
 
-    // 3. Update Username
+    // 3. Update Username / Nickname / Global Name
     if (this.dom.username && discord_user) {
-      const displayName = discord_user.global_name || discord_user.username || 'farru';
+      const displayName = discord_user.global_name || discord_user.display_name || discord_user.username || 'Farru';
       this.dom.username.textContent = displayName;
     }
 
@@ -174,7 +196,6 @@ class DiscordPresenceManager {
         </svg>`;
 
       if (activities && activities.length > 0) {
-        // Find custom status (type 4) or game/music/streaming
         const customStatus = activities.find(a => a.type === 4);
         const gameStatus = activities.find(a => a.type === 0 || a.type === 1 || a.type === 3);
 
@@ -252,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         xieronCard.classList.add('is-expanded');
         if (xieronActionCue) {
           xieronActionCue.textContent = 'visit xieron.com ↗';
-          xieronActionCue.className = 'transition-colors text-white font-semibold shadow-[0_0_10px_rgba(255,255,255,0.4)]';
+          xieronActionCue.className = 'transition-colors text-white font-semibold shadow-[0_0_12px_rgba(255,255,255,0.45)]';
         }
       }
       // If already expanded, default anchor link opens https://xieron.com/

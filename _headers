@@ -1,10 +1,9 @@
 /*
   # Security Headers Configuration
-  # This file configures security headers for GitHub Pages
-  # For Cloudflare users: These headers work alongside Cloudflare's protection
+  # Configures CSP & caching headers for Cloudflare and GitHub Pages
   
-  # Content Security Policy - Prevents XSS attacks
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  # Content Security Policy - Allows Lanyard API, WebSockets, Discord CDN
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.lanyard.rest wss://api.lanyard.rest https://cdn.discordapp.com https://discord.com https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
   
   # Prevent clickjacking attacks
   X-Frame-Options: DENY
@@ -24,27 +23,23 @@
   # Restrict browser features and APIs
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
   
-  # Cache control for security
-  Cache-Control: public, max-age=3600, must-revalidate
+  # Zero-delay cache revalidation
+  Cache-Control: public, max-age=0, must-revalidate
   
   # Additional security headers
   X-Permitted-Cross-Domain-Policies: none
-  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Embedder-Policy: unsafe-none
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
+  Cross-Origin-Resource-Policy: cross-origin
 
 /*.html
-  # HTML-specific headers
-  Cache-Control: public, max-age=1800, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*.css
-  # CSS caching
-  Cache-Control: public, max-age=86400, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*.js
-  # JavaScript caching
-  Cache-Control: public, max-age=86400, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*.png /*.jpg /*.jpeg /*.gif /*.webp /*.svg
-  # Image caching
-  Cache-Control: public, max-age=604800, immutable
+  Cache-Control: public, max-age=86400, must-revalidate
