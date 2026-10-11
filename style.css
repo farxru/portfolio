@@ -137,16 +137,16 @@ a, button, .glass-card, .glass-pill {
   background: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* White Neon Title Glow */
+/* Refined, Cool White Neon Title Glow (Crisp, High-End finish) */
 .avatar-gradient-text,
 .avatar-colors-ready .avatar-gradient-text,
 #heroTitle {
   color: #ffffff !important;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 40%, #e2e8f0 75%, #ffffff 100%) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 45%, #cbd5e1 75%, #ffffff 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.95), 0 0 36px rgba(255, 255, 255, 0.6), 0 0 54px rgba(255, 255, 255, 0.35) !important;
-  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 32px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 50px rgba(255, 255, 255, 0.35)) !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.65), 0 0 20px rgba(255, 255, 255, 0.25) !important;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
 }
 
 /* Frosted Glass Tabs & Cards (Clear Readability over 3D Background) */
