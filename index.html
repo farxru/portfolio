@@ -21,12 +21,12 @@
 </head>
 
 <body class="min-h-full flex flex-col">
-  <!-- Exact Fixed Radial Gradient Background (Light Red & Pink Theme) -->
-  <div class="fixed inset-0 pointer-events-none -z-10" style="background:
-          radial-gradient(90% 80% at 83% 4%, rgba(255, 67, 101, 0.22) 0%, rgba(244, 63, 94, 0.10) 35%, rgba(0, 0, 0, 0) 70%),
-          radial-gradient(80% 70% at 18% 85%, rgba(244, 114, 182, 0.16) 0%, rgba(236, 72, 153, 0.08) 38%, rgba(0, 0, 0, 0) 72%),
-          radial-gradient(60% 50% at 50% 45%, rgba(255, 154, 162, 0.05) 0%, rgba(0, 0, 0, 0) 65%),
-          linear-gradient(180deg, #100b0e 0%, #0a0608 45%, #080406 100%)"></div>
+  <!-- MORPHING SPHERE FORMATIONS - Dedicated isolated fixed-position background layer -->
+  <div id="sphere-canvas-bg" class="fixed inset-0 pointer-events-none -z-10 overflow-hidden" style="background-color: #000000;">
+    <canvas id="sphere-canvas" class="absolute inset-0 w-full h-full block pointer-events-none"></canvas>
+    <!-- Center & Top legibility protection: responsive dark vignette strictly inside background layer -->
+    <div class="absolute inset-0 pointer-events-none vignette-overlay"></div>
+  </div>
 
   <main class="relative flex min-h-screen w-full items-center justify-center px-4 py-8">
     <div class="relative z-10 flex w-full max-w-[410px] flex-col items-center gap-6">
@@ -39,7 +39,7 @@
           millions of users and thousands of guilds.</p>
         <div class="mt-4 flex items-center gap-2.5">
           <a href="https://www.instagram.com/farxru" target="_blank" rel="noreferrer" aria-label="instagram"
-            class="group flex h-8 w-8 items-center justify-center rounded-full border border-pink-500/15 bg-white/5 text-zinc-400 transition-all hover:border-pink-500/40 hover:bg-pink-500/10 hover:text-pink-100 hover:shadow-[0_0_15px_rgba(244,63,94,0.25)]">
+            class="group flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-zinc-400 transition-all hover:border-white/50 hover:bg-white/15 hover:text-white hover:shadow-[0_0_18px_rgba(255,255,255,0.4)]">
             <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
               class="h-3.5 w-3.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -47,8 +47,8 @@
               </path>
             </svg>
           </a>
-          <a href="https://discord.com/users/1522216225478934598" target="_blank" rel="noreferrer" aria-label="discord"
-            class="group flex h-8 w-8 items-center justify-center rounded-full border border-pink-500/15 bg-white/5 text-zinc-400 transition-all hover:border-pink-500/40 hover:bg-pink-500/10 hover:text-pink-100 hover:shadow-[0_0_15px_rgba(244,63,94,0.25)]">
+          <a href="https://discord.com/users/924238447147909172" target="_blank" rel="noreferrer" aria-label="discord"
+            class="group flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-zinc-400 transition-all hover:border-white/50 hover:bg-white/15 hover:text-white hover:shadow-[0_0_18px_rgba(255,255,255,0.4)]">
             <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
               class="h-3.5 w-3.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -61,33 +61,33 @@
 
       <!-- STATUS CARD -->
       <section class="fade-in-up delay-2 w-full">
-        <a href="https://discord.com/users/1522216225478934598" id="discordCardLink" target="_blank" rel="noreferrer"
-          class="fade-in-up delay-1 glass-card status-card relative block overflow-hidden px-4 py-3.5 group cursor-pointer transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)]">
+        <a href="https://discord.com/users/924238447147909172" id="discordCardLink" target="_blank" rel="noreferrer"
+          class="fade-in-up delay-1 glass-card status-card relative block overflow-hidden px-4 py-3.5 group cursor-pointer transition-all hover:border-white/40 hover:bg-white/[0.04] hover:shadow-[0_0_25px_rgba(255,255,255,0.22)]">
           <img src="static.png" alt=""
             class="pointer-events-none absolute inset-y-0 right-0 h-full w-full object-cover object-right opacity-50 transition-transform duration-500 group-hover:scale-105"
             loading="eager" />
           <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120a0f] via-[#120a0f]/80 to-transparent">
+            class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent">
           </div>
-          <div class="relative flex items-start gap-3 pr-24">
+          <div class="relative flex items-start gap-3 pr-20 sm:pr-24 status-card-inner">
             <div class="relative h-9 w-9 flex-shrink-0">
-              <div class="h-full w-full overflow-hidden rounded-full bg-pink-500/10 ring-1 ring-pink-500/25">
+              <div class="h-full w-full overflow-hidden rounded-full bg-white/10 ring-1 ring-white/30 shadow-[0_0_12px_rgba(255,255,255,0.25)]">
                 <img src="avatar.png" alt="farru avatar" id="discordAvatar" class="h-full w-full object-cover"
                   loading="eager" referrerPolicy="no-referrer" />
               </div>
               <span id="discordStatusDot"
-                class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#120a0f] shadow-sm bg-[#f0b232]">
+                class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-[2px] border-[#050505] shadow-sm bg-[#f0b232]">
                 <span id="discordStatusHole" style="display:none;"
-                  class="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#120a0f]"></span>
+                  class="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#050505]"></span>
               </span>
             </div>
             <div class="min-w-0 flex-1 space-y-1">
               <div class="flex items-center gap-1.5">
                 <p id="discordUsername"
-                  class="truncate text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">
+                  class="truncate text-[13px] font-medium text-zinc-100 group-hover:text-white transition-colors">
                   𝑭𝒂𝒓𝒓𝒖 &lt;/&gt;</p>
                 <span
-                  class="text-[10px] text-pink-400/80 font-mono opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                  class="text-[10px] text-white/80 font-mono opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
               </div>
               <div class="flex items-center gap-1.5 min-w-0">
                 <span id="discordActivityIcon"
@@ -106,21 +106,21 @@
         <div class="grid gap-2.5 sm:grid-cols-2">
           <!-- Xieron (Expand on 1st click, Navigate on 2nd click) -->
           <a href="https://xieron.com/" target="_blank" rel="noreferrer" id="xieronCard"
-            class="glass-card project-card expandable-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)] cursor-pointer">
+            class="glass-card project-card expandable-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-white/40 hover:bg-white/[0.04] hover:shadow-[0_0_25px_rgba(255,255,255,0.22)] cursor-pointer">
             <div class="flex items-center gap-2.5">
               <span
-                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-pink-500/20 bg-black/40 p-1 group-hover:border-pink-500/40 transition-colors">
+                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-white/20 bg-black/40 p-1 group-hover:border-white/50 group-hover:shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-all">
                 <img src="xieron-logo.png" alt="Xieron" class="h-full w-full rounded-sm object-contain" loading="lazy"
                   referrerPolicy="no-referrer" />
               </span>
               <div class="min-w-0">
-                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">Xieron <span
-                    class="text-pink-400/90 text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-pink-500/10 border border-pink-500/20">bot</span></p>
+                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-white transition-colors">Xieron <span
+                    class="text-white text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-white/10 border border-white/25 shadow-[0_0_8px_rgba(255,255,255,0.2)]">bot</span></p>
                 <p class="text-[10px] text-zinc-500">Active</p>
               </div>
               <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
                 stroke-linejoin="round"
-                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-pink-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-white group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
@@ -128,29 +128,29 @@
             </div>
             <div class="relative">
               <p id="xieronDesc" class="expandable-desc text-[11px] leading-relaxed text-zinc-400">Xieron is a powerful all-in-one bot with automod, anti-nuke, welcome messages, roles, giveaways &amp; more. Built for speed and security. Customize everything &amp; protect your server with ease.</p>
-              <div class="mt-1 flex items-center justify-between text-[10px] font-mono text-pink-400/80 select-none">
-                <span id="xieronActionCue" class="transition-colors hover:text-pink-300">click to read more ▾</span>
+              <div class="mt-1 flex items-center justify-between text-[10px] font-mono text-white/80 select-none">
+                <span id="xieronActionCue" class="transition-colors hover:text-white">click to read more ▾</span>
               </div>
             </div>
           </a>
 
           <!-- Mintone -->
           <a href="https://mintone.app" target="_blank" rel="noreferrer"
-            class="glass-card project-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-pink-500/30 hover:bg-pink-500/[0.04] hover:shadow-[0_0_25px_rgba(244,63,94,0.12)]">
+            class="glass-card project-card group flex flex-col gap-2.5 p-3.5 transition-all hover:border-white/40 hover:bg-white/[0.04] hover:shadow-[0_0_25px_rgba(255,255,255,0.22)]">
             <div class="flex items-center gap-2.5">
               <span
-                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-pink-500/20 bg-black/40 p-1 group-hover:border-pink-500/40 transition-colors">
+                class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-white/20 bg-black/40 p-1 group-hover:border-white/50 group-hover:shadow-[0_0_12px_rgba(255,255,255,0.25)] transition-all">
                 <img src="mintone-logo.png" alt="Mintone" class="h-full w-full rounded-sm object-contain" loading="lazy"
                   referrerPolicy="no-referrer" />
               </span>
               <div class="min-w-0">
-                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-pink-100 transition-colors">Mintone <span
-                    class="text-pink-400/90 text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-pink-500/10 border border-pink-500/20">bot</span></p>
+                <p class="text-[13px] font-medium text-zinc-100 group-hover:text-white transition-colors">Mintone <span
+                    class="text-white text-[10px] font-mono ml-1 px-1.5 py-0.5 rounded bg-white/10 border border-white/25 shadow-[0_0_8px_rgba(255,255,255,0.2)]">bot</span></p>
                 <p class="text-[10px] text-zinc-500">Live</p>
               </div>
               <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
                 stroke-linejoin="round"
-                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-pink-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                class="ml-auto h-3.5 w-3.5 flex-shrink-0 text-zinc-600 transition-all group-hover:text-white group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
@@ -167,9 +167,9 @@
           <div class="marquee-group">
             <!-- PostgreSQL -->
             <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -181,9 +181,9 @@
 
             <!-- Redis -->
             <a href="https://redis.io" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -195,9 +195,9 @@
 
             <!-- Docker -->
             <a href="https://www.docker.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -209,9 +209,9 @@
 
             <!-- Git -->
             <a href="https://git-scm.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -223,9 +223,9 @@
 
             <!-- GitHub -->
             <a href="https://github.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -237,9 +237,9 @@
 
             <!-- Vercel -->
             <a href="https://vercel.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path d="m12 1.608 12 20.784H0Z"></path>
@@ -249,9 +249,9 @@
 
             <!-- Cloudflare -->
             <a href="https://cloudflare.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -263,9 +263,9 @@
 
             <!-- Python -->
             <a href="https://www.python.org" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -277,9 +277,9 @@
 
             <!-- FastAPI -->
             <a href="https://fastapi.tiangolo.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -291,9 +291,9 @@
 
             <!-- Flask -->
             <a href="https://flask.palletsprojects.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -305,9 +305,9 @@
 
             <!-- Sentry -->
             <a href="https://sentry.io" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -321,9 +321,9 @@
           <div class="marquee-group" aria-hidden="true">
             <!-- PostgreSQL -->
             <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -335,9 +335,9 @@
 
             <!-- Redis -->
             <a href="https://redis.io" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -349,9 +349,9 @@
 
             <!-- Docker -->
             <a href="https://www.docker.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -363,9 +363,9 @@
 
             <!-- Git -->
             <a href="https://git-scm.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -377,9 +377,9 @@
 
             <!-- GitHub -->
             <a href="https://github.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -391,9 +391,9 @@
 
             <!-- Vercel -->
             <a href="https://vercel.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path d="m12 1.608 12 20.784H0Z"></path>
@@ -403,9 +403,9 @@
 
             <!-- Cloudflare -->
             <a href="https://cloudflare.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -417,9 +417,9 @@
 
             <!-- Python -->
             <a href="https://www.python.org" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -431,9 +431,9 @@
 
             <!-- FastAPI -->
             <a href="https://fastapi.tiangolo.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -445,9 +445,9 @@
 
             <!-- Flask -->
             <a href="https://flask.palletsprojects.com" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -459,9 +459,9 @@
 
             <!-- Sentry -->
             <a href="https://sentry.io" target="_blank" rel="noreferrer"
-              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-pink-200">
+              class="glass-pill gap-1.5 text-[10px] lowercase text-zinc-400 hover:text-white">
               <span
-                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-pink-500/10 text-pink-300 border border-pink-500/15">
+                class="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/10 text-white border border-white/20">
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24"
                   class="h-2.5 w-2.5" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -477,6 +477,8 @@
     </div>
   </main>
 
+  <script src="three.min.js"></script>
+  <script src="sphere-formations.js"></script>
   <script src="script.js"></script>
 </body>
 
