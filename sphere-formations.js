@@ -41,8 +41,8 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes (ultra smooth 60-120 FPS)
-  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 380 : 480) : (isBudgetDevice ? 650 : 800);
-  const SPHERE_RADIUS = isMobile ? 0.36 : 0.32;
+  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 800 : 1000) : (isBudgetDevice ? 1200 : 1600);
+  const SPHERE_RADIUS = isMobile ? 0.22 : 0.20;
 
   // Constants
   const PI2 = Math.PI * 2;
@@ -464,34 +464,34 @@
     renderer.setPixelRatio(currentDPR);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.LinearToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.15;
 
     // Studio Lighting for Monochrome Chrome/Silver Gloss
-    const ambientLight = new THREE.AmbientLight(0x222226, 1.8);
+    const ambientLight = new THREE.AmbientLight(0x383844, 2.2);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
     keyLight.position.set(30, 42, 45);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x888894, 1.0);
+    const fillLight = new THREE.DirectionalLight(0xa0a8b4, 1.2);
     fillLight.position.set(-30, -28, -20);
     scene.add(fillLight);
 
-    const sweepLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    sweepLight.position.set(0, 15, 30);
+    const sweepLight = new THREE.PointLight(0xffffff, 3.2, 90, 1.6);
+    sweepLight.position.set(0, 10, 25);
     scene.add(sweepLight);
 
     const formationGroup = new THREE.Group();
     formationGroup.position.set(0, -2.5, 0);
     scene.add(formationGroup);
 
-    // Segment count tuned for high polygon efficiency and high frame rates
-    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, 8, 6);
-    const sphereMat = new THREE.MeshPhongMaterial({
+    // Segment count: 16x12 for perfectly round, smooth 3D metallic spheres
+    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, 16, 12);
+    const sphereMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      specular: 0xffffff,
-      shininess: 90,
+      metalness: 0.42,
+      roughness: 0.16,
       flatShading: false
     });
 
@@ -704,30 +704,14 @@
       sweepLight.position.z = Math.sin(elapsedTime * 0.55) * 25 + 15;
 
       // Phase State Machine
+      let positionsChanged = false;
+
       if (currentPhase === PHASE_HOLD) {
         formationGroup.rotation.x += rotSpeedX;
         formationGroup.rotation.y += rotSpeedY;
 
-        // Zero-hypot procedural hold evolution (precomputed distances & unit vectors)
-        const evRate = activeSpec.evolveRate;
-        const evFreq = activeSpec.evolveFreq * 0.15;
-        const evAmp = activeSpec.evolveAmp * 0.35;
-        const phaseOffset = elapsedTime * evRate;
-
-        for (let i = 0; i < activeRenderCount; i++) {
-          const idx = i * 3;
-          const bx = baseTargetPositions[idx];
-          const by = baseTargetPositions[idx + 1];
-          const bz = baseTargetPositions[idx + 2];
-          const wave = Math.sin(manifoldDistances[i] * evFreq - phaseOffset) * evAmp;
-
-          currentPositions[idx] = bx + manifoldNormals[idx] * wave;
-          currentPositions[idx + 1] = by + manifoldNormals[idx + 1] * wave;
-          currentPositions[idx + 2] = bz + manifoldNormals[idx + 2] * wave;
-        }
-
         // Precompute next formation ahead of time around halfway into hold phase
-        if (phaseTime > (HOLD_DURATION * 0.4) && !isNextFormationReady) {
+        if (phaseTime > (HOLD_DURATION * 0.5) && !isNextFormationReady) {
           prepareNextFormationAheadOfTime();
         }
 
@@ -738,6 +722,7 @@
         }
       } else if (currentPhase === PHASE_SCATTER) {
         const progress = Math.min(1.0, phaseTime / SCATTER_DURATION);
+        positionsChanged = true;
 
         for (let i = 0; i < activeRenderCount; i++) {
           const idx = i * 3;
@@ -758,6 +743,7 @@
         }
       } else if (currentPhase === PHASE_GATHER) {
         const progress = Math.min(1.0, phaseTime / GATHER_DURATION);
+        positionsChanged = true;
 
         for (let i = 0; i < activeRenderCount; i++) {
           const idx = i * 3;
@@ -782,16 +768,19 @@
       }
 
       // ====================================================================
-      // DIRECT BUFFER MATRIX UPDATE (15x faster than Three.js setMatrixAt)
+      // DIRECT BUFFER MATRIX UPDATE - ONLY WHEN POSITIONS ACTUALLY CHANGE
+      // Zero GPU bandwidth overhead during 80% hold rotation phase!
       // ====================================================================
-      for (let i = 0; i < activeRenderCount; i++) {
-        const i3 = i * 3;
-        const i16 = i * 16;
-        mArray[i16 + 12] = currentPositions[i3];
-        mArray[i16 + 13] = currentPositions[i3 + 1];
-        mArray[i16 + 14] = currentPositions[i3 + 2];
+      if (positionsChanged) {
+        for (let i = 0; i < activeRenderCount; i++) {
+          const i3 = i * 3;
+          const i16 = i * 16;
+          mArray[i16 + 12] = currentPositions[i3];
+          mArray[i16 + 13] = currentPositions[i3 + 1];
+          mArray[i16 + 14] = currentPositions[i3 + 2];
+        }
+        instancedMesh.instanceMatrix.needsUpdate = true;
       }
-      instancedMesh.instanceMatrix.needsUpdate = true;
 
       renderer.render(scene, camera);
     }

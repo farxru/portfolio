@@ -297,8 +297,8 @@ html, body {
 /* Responsive Ambient Center Vignette */
 .vignette-overlay {
   background:
-    radial-gradient(ellipse min(88vw, 680px) min(78vh, 850px) at 50% 45%, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.38) 45%, rgba(0, 0, 0, 0.06) 80%, transparent 100%),
-    linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0.88) 12%, rgba(0, 0, 0, 0.22) 30%, transparent 45%, transparent 75%, rgba(0, 0, 0, 0.88) 100%);
+    radial-gradient(ellipse min(88vw, 680px) min(78vh, 850px) at 50% 45%, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.18) 45%, rgba(0, 0, 0, 0.02) 80%, transparent 100%),
+    linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0.75) 12%, rgba(0, 0, 0, 0.15) 30%, transparent 45%, transparent 75%, rgba(0, 0, 0, 0.75) 100%);
 }
 
 /* Pause marquee only when device truly has mouse pointer hover */
@@ -448,112 +448,66 @@ body.low-perf-mode {
 }
 
 /* ==============================================================================
- * FEDS.LOL SIGNATURE BLACK & WHITE TEXT EFFECT (Pure Monochrome Chrome Glint)
+ * FEDS.LOL SIGNATURE MONOCHROME TEXT EFFECT (Pure White Wave & Specular Bloom)
  * ============================================================================== */
 
 .feds-title {
-  display: inline-block !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
   position: relative;
   font-family: var(--font-syne), sans-serif;
   font-weight: 800;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
+  color: #ffffff !important;
   user-select: none;
   cursor: default;
-  /* Pure Monochrome Black & White Linear Shimmer (Strictly No Color Tint) */
-  background: linear-gradient(
-    110deg,
-    #1c1c1c 0%,
-    #383838 18%,
-    #7a7a7a 34%,
-    #ffffff 48%,
-    #ffffff 52%,
-    #7a7a7a 66%,
-    #383838 82%,
-    #1c1c1c 100%
-  );
-  background-size: 260% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: fedsBWBeam 2.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
-  transition: filter 0.25s ease, transform 0.25s ease;
-  will-change: background-position;
-}
-
-@keyframes fedsBWBeam {
-  0% {
-    background-position: 180% 0;
-  }
-  100% {
-    background-position: -180% 0;
-  }
+  transition: transform 0.25s ease;
 }
 
 .feds-title:hover {
-  filter: drop-shadow(0 0 22px #ffffff) drop-shadow(0 0 42px rgba(255, 255, 255, 0.8)) drop-shadow(0 2px 6px #000000);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-/* ==============================================================================
- * CINEMATIC OVERLAYS (Ultra Lightweight: 0% CPU, 0 repaints, Hardware Isolated)
- * ============================================================================== */
-
-/* Rain GIF Overlay */
-.overlay-rain {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.08;
-  background-image: url('rain.gif');
-  background-repeat: repeat;
-  transform: translateZ(0);
+.feds-char {
+  display: inline-block;
+  position: relative;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.55), 0 0 20px rgba(255, 255, 255, 0.25);
+  animation: fedsCharWave 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+  will-change: transform, text-shadow;
 }
 
-/* Static Film Grain Noise (Zero CPU/GPU cost, pure composite) */
-.overlay-noise {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  transform: translateZ(0);
+@keyframes fedsCharWave {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.55), 0 0 20px rgba(255, 255, 255, 0.25);
+  }
+  22% {
+    transform: translateY(-3px) scale(1.08);
+    color: #ffffff;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 1), 0 0 32px rgba(255, 255, 255, 0.85), 0 0 52px rgba(255, 255, 255, 0.45);
+  }
+  44% {
+    transform: translateY(0) scale(1);
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.55), 0 0 20px rgba(255, 255, 255, 0.25);
+  }
 }
 
-/* CRT Scanlines Overlay */
-.overlay-scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15) 0px,
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  opacity: 0.18;
-  transform: translateZ(0);
+.feds-title:hover .feds-char {
+  text-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 36px rgba(255, 255, 255, 0.9), 0 0 60px rgba(255, 255, 255, 0.6);
 }
 
 /* Low-perf mode overrides */
-.hardware-accel-off .overlay-noise,
-.low-perf-mode .overlay-noise,
-.hardware-accel-off .overlay-scanlines,
-.low-perf-mode .overlay-scanlines,
-.hardware-accel-off .overlay-rain,
-.low-perf-mode .overlay-rain {
-  display: none !important;
-}
-
-.hardware-accel-off .feds-title,
-.low-perf-mode .feds-title {
+.hardware-accel-off .feds-char,
+.low-perf-mode .feds-char {
   animation: none !important;
-  background: #ffffff !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)) !important;
+  transform: none !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.75) !important;
 }
 
 
