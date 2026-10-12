@@ -41,8 +41,8 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes (ultra smooth 60-120 FPS)
-  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 800 : 1000) : (isBudgetDevice ? 1200 : 1600);
-  const SPHERE_RADIUS = isMobile ? 0.22 : 0.20;
+  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 450 : 600) : (isBudgetDevice ? 650 : 850);
+  const SPHERE_RADIUS = isMobile ? 0.28 : 0.26;
 
   // Constants
   const PI2 = Math.PI * 2;
@@ -399,16 +399,14 @@
   }
 
   const webglState = checkWebGLCapabilities();
-  // Only fall back to Canvas 2D if WebGL is completely unavailable
-  const useCanvas2DFallback = !webglState.available;
+  // If WebGL is unavailable or running on software CPU rasterizer (SwiftShader with hardware acceleration off),
+  // fall back to the optimized Canvas 2D engine for guaranteed 60 FPS
+  const useCanvas2DFallback = !webglState.available || webglState.isSoftware;
 
-  // If software rendering is detected (e.g. SwiftShader with hardware acceleration off),
-  // apply CSS optimizations so the DOM does not waste CPU on heavy blur filters
   if (webglState.isSoftware) {
     document.documentElement.classList.add('hardware-accel-off', 'low-perf-mode');
   }
 
-  // If WebGL is genuinely unavailable, use Canvas 2D fallback:
   if (useCanvas2DFallback || !window.THREE) {
     runCanvas2DFallbackEngine();
     return;
@@ -460,25 +458,28 @@
       precision: isMobile ? 'mediump' : 'highp'
     });
 
-    let currentDPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.15);
+    let currentDPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.1);
     renderer.setPixelRatio(currentDPR);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.LinearToneMapping;
     renderer.toneMappingExposure = 1.15;
 
-    // Studio Lighting for Monochrome Chrome/Silver Gloss
-    const ambientLight = new THREE.AmbientLight(0x383844, 2.2);
+    // High-Contrast Studio Lighting: Deep dark ambient allows rich shadows, hemisphere light gives round curvature
+    const ambientLight = new THREE.AmbientLight(0x0e1118, 0.75);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x080a0f, 1.1);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
     keyLight.position.set(30, 42, 45);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xa0a8b4, 1.2);
+    const fillLight = new THREE.DirectionalLight(0x64748b, 0.85);
     fillLight.position.set(-30, -28, -20);
     scene.add(fillLight);
 
-    const sweepLight = new THREE.PointLight(0xffffff, 3.2, 90, 1.6);
+    const sweepLight = new THREE.PointLight(0xffffff, 2.6, 85, 1.8);
     sweepLight.position.set(0, 10, 25);
     scene.add(sweepLight);
 
@@ -486,12 +487,12 @@
     formationGroup.position.set(0, -2.5, 0);
     scene.add(formationGroup);
 
-    // Segment count: 16x12 for perfectly round, smooth 3D metallic spheres
-    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, 16, 12);
+    // Segment count: 14x10 for perfectly round, smooth 3D metallic spheres with ultra-fast rasterization
+    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, 14, 10);
     const sphereMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      metalness: 0.42,
-      roughness: 0.16,
+      metalness: 0.82,
+      roughness: 0.18,
       flatShading: false
     });
 
@@ -499,14 +500,14 @@
     instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     formationGroup.add(instancedMesh);
 
-    // Instance Colors (Pearl / Glossy White / Silver Palette)
+    // Instance Colors: High-contrast gradient between glossy pearl, platinum, chrome, and deep gunmetal
     const colorsArray = new Float32Array(MAX_SPHERES * 3);
     const palette = [
-      new THREE.Color(0xffffff),
-      new THREE.Color(0xf8fafc),
-      new THREE.Color(0xe2e8f0),
-      new THREE.Color(0xcbd5e1),
-      new THREE.Color(0x94a3b8)
+      new THREE.Color(0xf1f5f9), // Bright pearl
+      new THREE.Color(0xd4d4d8), // Platinum
+      new THREE.Color(0xa1a1aa), // Silver
+      new THREE.Color(0x71717a), // Medium chrome
+      new THREE.Color(0x3f3f46)  // Dark gunmetal
     ];
 
     for (let i = 0; i < MAX_SPHERES; i++) {
@@ -683,9 +684,7 @@
           }
         } else if (frameMs < 16.6) {
           fastFrames++;
-          if (fastFrames > 300 && currentDPR < (isMobile ? 1.25 : 1.75)) {
-            currentDPR = Math.min(isMobile ? 1.25 : 1.75, currentDPR + 0.15);
-            renderer.setPixelRatio(currentDPR);
+          if (fastFrames > 300) {
             fastFrames = 0;
           }
         }
