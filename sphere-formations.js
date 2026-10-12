@@ -40,9 +40,9 @@
   const isBudgetDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes
-  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 1400 : 1800) : 3000;
-  const SPHERE_RADIUS = isMobile ? 0.23 : 0.20;
+  // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes (optimized for 60-120 FPS)
+  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 600 : 900) : (isBudgetDevice ? 1100 : 1500);
+  const SPHERE_RADIUS = isMobile ? 0.28 : 0.24;
 
   // Constants
   const PI2 = Math.PI * 2;
@@ -486,13 +486,13 @@
     formationGroup.position.set(0, -2.5, 0);
     scene.add(formationGroup);
 
-    // Geometry & Material
-    // Segment count tuned for high polygon efficiency
-    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, isMobile ? 10 : 14, isMobile ? 8 : 10);
-    const sphereMat = new THREE.MeshStandardMaterial({
+    // Segment count tuned for high polygon efficiency and high frame rates
+    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, isMobile ? 8 : 10, isMobile ? 6 : 8);
+    const sphereMat = new THREE.MeshPhongMaterial({
       color: 0xffffff,
-      metalness: 0.88,
-      roughness: 0.16
+      specular: 0xffffff,
+      shininess: 95,
+      flatShading: false
     });
 
     const instancedMesh = new THREE.InstancedMesh(sphereGeom, sphereMat, MAX_SPHERES);
