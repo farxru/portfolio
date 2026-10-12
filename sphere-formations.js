@@ -40,9 +40,9 @@
   const isBudgetDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes (optimized for 60-120 FPS)
-  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 600 : 900) : (isBudgetDevice ? 1100 : 1500);
-  const SPHERE_RADIUS = isMobile ? 0.28 : 0.24;
+  // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes (ultra smooth 60-120 FPS)
+  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 380 : 480) : (isBudgetDevice ? 650 : 800);
+  const SPHERE_RADIUS = isMobile ? 0.36 : 0.32;
 
   // Constants
   const PI2 = Math.PI * 2;
@@ -460,26 +460,26 @@
       precision: isMobile ? 'mediump' : 'highp'
     });
 
-    let currentDPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
+    let currentDPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.15);
     renderer.setPixelRatio(currentDPR);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMapping = THREE.LinearToneMapping;
+    renderer.toneMappingExposure = 1.05;
 
-    // Studio Lighting for Chrome/Silver Gloss
-    const ambientLight = new THREE.AmbientLight(0x181820, 1.35);
+    // Studio Lighting for Monochrome Chrome/Silver Gloss
+    const ambientLight = new THREE.AmbientLight(0x222226, 1.8);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
     keyLight.position.set(30, 42, 45);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x94a3b8, 0.95);
+    const fillLight = new THREE.DirectionalLight(0x888894, 1.0);
     fillLight.position.set(-30, -28, -20);
     scene.add(fillLight);
 
-    const sweepLight = new THREE.PointLight(0xe2e8f0, 2.5, 80, 1.8);
-    sweepLight.position.set(0, 10, 25);
+    const sweepLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    sweepLight.position.set(0, 15, 30);
     scene.add(sweepLight);
 
     const formationGroup = new THREE.Group();
@@ -487,11 +487,11 @@
     scene.add(formationGroup);
 
     // Segment count tuned for high polygon efficiency and high frame rates
-    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, isMobile ? 8 : 10, isMobile ? 6 : 8);
+    const sphereGeom = new THREE.SphereGeometry(SPHERE_RADIUS, 8, 6);
     const sphereMat = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       specular: 0xffffff,
-      shininess: 95,
+      shininess: 90,
       flatShading: false
     });
 

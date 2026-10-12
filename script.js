@@ -323,22 +323,4 @@ document.addEventListener('DOMContentLoaded', () => {
       // If already expanded, default anchor link opens https://xieron.com/
     });
   }
-
-  // Throttled global ambient background spotlight tracking (mouse + touch)
-  let bgSpotlightRaf = null;
-  const updateBgSpotlight = (clientX, clientY) => {
-    if (bgSpotlightRaf) return;
-    bgSpotlightRaf = requestAnimationFrame(() => {
-      const x = Math.round((clientX / window.innerWidth) * 100);
-      const y = Math.round((clientY / window.innerHeight) * 100);
-      document.documentElement.style.setProperty('--bg-mouse-x', `${x}%`);
-      document.documentElement.style.setProperty('--bg-mouse-y', `${y}%`);
-      bgSpotlightRaf = null;
-    });
-  };
-
-  window.addEventListener('mousemove', (e) => updateBgSpotlight(e.clientX, e.clientY), { passive: true });
-  window.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches[0]) updateBgSpotlight(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
 });
