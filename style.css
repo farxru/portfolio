@@ -448,4 +448,166 @@ body.low-perf-mode {
   }
 }
 
+/* ==============================================================================
+ * FEDS.LOL SIGNATURE TEXT ANIMATION & CINEMATIC OVERLAYS
+ * ============================================================================== */
+
+/* Character Wave Shimmer Text (feds.lol/plugs signature animation) */
+.feds-title {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  letter-spacing: -0.02em;
+  user-select: none;
+  cursor: default;
+}
+
+.feds-char {
+  display: inline-block;
+  color: #ffffff;
+  animation: fedsCharWave 2.8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s ease, color 0.25s ease;
+  will-change: transform, color, text-shadow, opacity;
+  transform-origin: center bottom;
+}
+
+.feds-char:hover {
+  transform: translateY(-4px) scale(1.15);
+  color: #ffffff !important;
+  text-shadow: 
+    0 0 12px #ffffff,
+    0 0 25px rgba(255, 255, 255, 1),
+    0 0 45px rgba(255, 255, 255, 0.9),
+    0 0 70px rgba(255, 255, 255, 0.6) !important;
+}
+
+@keyframes fedsCharWave {
+  0%, 100% {
+    opacity: 0.52;
+    color: rgba(226, 232, 240, 0.65);
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.25),
+      0 0 12px rgba(255, 255, 255, 0.1);
+    transform: translateY(0) scale(1);
+  }
+  14%, 26% {
+    opacity: 1;
+    color: #ffffff;
+    text-shadow:
+      0 0 12px rgba(255, 255, 255, 1),
+      0 0 24px rgba(255, 255, 255, 0.9),
+      0 0 40px rgba(255, 255, 255, 0.7),
+      0 0 60px rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px) scale(1.12);
+  }
+  42% {
+    opacity: 0.52;
+    color: rgba(226, 232, 240, 0.65);
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.25),
+      0 0 12px rgba(255, 255, 255, 0.1);
+    transform: translateY(0) scale(1);
+  }
+}
+
+.feds-text-glow {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  animation: fedsNameGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes fedsNameGlow {
+  0% {
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Rain GIF Overlay */
+.overlay-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  background-image: url('rain.gif');
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+}
+
+/* Film Grain Noise Overlay (feds.lol implementation) */
+.overlay-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.038;
+  mix-blend-mode: screen;
+}
+
+.overlay-noise::after {
+  content: "";
+  background-image: url('noise.png');
+  width: calc(100% + 20rem);
+  height: calc(100% + 20rem);
+  animation: 1s steps(3, end) infinite noiseAnim;
+  display: block;
+  position: absolute;
+  top: -10rem;
+  left: -10rem;
+}
+
+@keyframes noiseAnim {
+  0% { transform: translateY(9rem); }
+  10% { transform: translate(-1rem, -4rem); }
+  20% { transform: translate(-8rem, 2rem); }
+  30% { transform: translate(9rem, -9rem); }
+  40% { transform: translate(-2rem, 7rem); }
+  50% { transform: translate(-9rem, -4rem); }
+  60% { transform: translate(2rem, 6rem); }
+  70% { transform: translate(7rem, -8rem); }
+  80% { transform: translate(-9rem, 1rem); }
+  90% { transform: translate(6rem, -5rem); }
+  100% { transform: translate(-7rem, 0); }
+}
+
+/* CRT Scanlines Overlay */
+.overlay-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+}
+
+/* Low-perf mode overrides */
+.hardware-accel-off .overlay-noise,
+.low-perf-mode .overlay-noise,
+.hardware-accel-off .overlay-scanlines,
+.low-perf-mode .overlay-scanlines,
+.hardware-accel-off .overlay-rain,
+.low-perf-mode .overlay-rain,
+.hardware-accel-off #overlay-rain-canvas,
+.low-perf-mode #overlay-rain-canvas {
+  display: none !important;
+}
+
+.hardware-accel-off .feds-char,
+.low-perf-mode .feds-char {
+  animation: none !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6) !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 

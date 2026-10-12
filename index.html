@@ -20,7 +20,7 @@
     rel="stylesheet" />
 
   <!-- Compiled CSS with cache busting -->
-  <link rel="stylesheet" href="style.css?v=20261012-perf-v4" />
+  <link rel="stylesheet" href="style.css?v=20261012-perf-v5" />
 </head>
 
 <body class="min-h-full flex flex-col">
@@ -29,6 +29,11 @@
     <canvas id="sphere-canvas" class="absolute inset-0 w-full h-full block pointer-events-none"></canvas>
     <!-- Center & Top legibility protection: responsive dark vignette strictly inside background layer -->
     <div class="absolute inset-0 pointer-events-none vignette-overlay"></div>
+    <!-- Cinematic Overlays: Rain GIF, Dynamic Raindrop Ripple Canvas, Film Grain Noise, CRT Scanlines -->
+    <div class="absolute inset-0 pointer-events-none overlay-rain"></div>
+    <canvas id="overlay-rain-canvas" class="absolute inset-0 w-full h-full block pointer-events-none"></canvas>
+    <div class="absolute inset-0 pointer-events-none overlay-noise"></div>
+    <div class="absolute inset-0 pointer-events-none overlay-scanlines"></div>
   </div>
 
   <main class="relative flex min-h-screen w-full items-center justify-center px-4 py-8">
@@ -36,7 +41,8 @@
 
       <!-- HERO SECTION -->
       <section class="fade-in-up flex flex-col items-center text-center">
-        <h1 id="heroTitle" class="heading-font avatar-gradient-text text-5xl font-bold tracking-tight" style="line-height:0.95; color:#ffffff !important; text-shadow: 0 0 10px rgba(255,255,255,0.65), 0 0 20px rgba(255,255,255,0.25) !important;">Farru
+        <h1 id="heroTitle" class="heading-font feds-title text-5xl font-bold tracking-tight" style="line-height:0.95;">
+          <span class="feds-char" style="--i:0">F</span><span class="feds-char" style="--i:1">a</span><span class="feds-char" style="--i:2">r</span><span class="feds-char" style="--i:3">r</span><span class="feds-char" style="--i:4">u</span>
         </h1>
         <p class="mt-3 max-w-sm text-xs leading-relaxed text-zinc-300">passionate developer creating products used by
           millions of users and thousands of guilds.</p>
@@ -488,8 +494,8 @@
   </main>
 
   <script src="three.min.js"></script>
-  <script src="sphere-formations.js?v=20261012-perf-v4"></script>
-  <script src="script.js?v=20261012-perf-v4"></script>
+  <script src="sphere-formations.js?v=20261012-perf-v5"></script>
+  <script src="script.js?v=20261012-perf-v5"></script>
 </body>
 
 </html>

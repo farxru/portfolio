@@ -341,4 +341,120 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchmove', (e) => {
     if (e.touches && e.touches[0]) updateBgSpotlight(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
+
+  // Initialize cinematic raindrop ripple atmosphere
+  initRaindropRipples();
 });
+
+// ==============================================================================
+// CINEMATIC RAINDROP RIPPLE ENGINE (feds.lol/plugs atmosphere)
+// ==============================================================================
+function initRaindropRipples() {
+  const canvas = document.getElementById('overlay-rain-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  // Disable on low performance mode or hardware acceleration off
+  if (
+    document.documentElement.classList.contains('hardware-accel-off') ||
+    document.documentElement.classList.contains('low-perf-mode')
+  ) {
+    return;
+  }
+
+  let width = 0;
+  let height = 0;
+  const ripples = [];
+  const MAX_RIPPLES = 12;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function createRipple(x, y) {
+    if (ripples.length >= MAX_RIPPLES) ripples.shift();
+    ripples.push({
+      x: x !== undefined ? x : Math.random() * width,
+      y: y !== undefined ? y : Math.random() * height,
+      radius: 1,
+      maxRadius: 28 + Math.random() * 32,
+      speed: 0.65 + Math.random() * 0.45,
+      alpha: 0.38 + Math.random() * 0.15,
+      decay: 0.007 + Math.random() * 0.005,
+      eccentricity: 0.62 // slight perspective flattening
+    });
+  }
+
+  // Interactive ripples on user click / tap
+  window.addEventListener('pointerdown', (e) => {
+    createRipple(e.clientX, e.clientY);
+  }, { passive: true });
+
+  let lastSpawn = 0;
+  let isRunning = true;
+  let animId = null;
+
+  function loop(now) {
+    if (!isRunning) return;
+
+    // Periodically spawn natural raindrops hitting surface
+    if (now - lastSpawn > 550 && ripples.length < MAX_RIPPLES) {
+      if (Math.random() < 0.65) {
+        createRipple();
+      }
+      lastSpawn = now;
+    }
+
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const r = ripples[i];
+      r.radius += r.speed;
+      r.alpha -= r.decay;
+
+      if (r.alpha <= 0 || r.radius >= r.maxRadius) {
+        ripples.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      // Ellipse for 3D depth perspective
+      ctx.ellipse(r.x, r.y, r.radius, r.radius * r.eccentricity, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(255, 255, 255, ${r.alpha.toFixed(3)})`;
+      ctx.lineWidth = 1;
+      ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
+      ctx.shadowBlur = 4;
+      ctx.stroke();
+
+      // Delicate inner ring
+      if (r.radius > 10) {
+        ctx.beginPath();
+        ctx.ellipse(r.x, r.y, r.radius * 0.6, r.radius * 0.6 * r.eccentricity, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${(r.alpha * 0.5).toFixed(3)})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    animId = requestAnimationFrame(loop);
+  }
+
+  animId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      isRunning = false;
+      if (animId) cancelAnimationFrame(animId);
+    } else {
+      isRunning = true;
+      lastSpawn = performance.now();
+      animId = requestAnimationFrame(loop);
+    }
+  });
+}
