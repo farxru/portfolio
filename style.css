@@ -347,4 +347,105 @@ html, body {
   }
 }
 
+/* ==============================================================================
+ * HARDWARE ACCELERATION DISABLED & LOW-END DEVICE SMOOTH ANIMATION ENGINE
+ * ============================================================================== */
+
+/* Hardware accelerated 3D composite for marquee on all supported devices */
+.marquee-track {
+  gap: 0.6rem !important;
+  width: max-content !important;
+  animation: 26s linear infinite marquee3d !important;
+  display: flex !important;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.marquee-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  contain: layout paint style;
+}
+
+@keyframes marquee3d {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Fallback & Low-Performance Mode (Hardware acceleration turned off, low FPS, or budget hardware) */
+html.hardware-accel-off,
+html.low-perf-mode,
+body.hardware-accel-off,
+body.low-perf-mode {
+  text-rendering: optimizeSpeed;
+}
+
+.hardware-accel-off .glass-card,
+.low-perf-mode .glass-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(14, 14, 17, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65) !important;
+  transform: translateZ(0);
+}
+
+.hardware-accel-off .glass-card:hover,
+.low-perf-mode .glass-card:hover {
+  background: rgba(22, 22, 28, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 25px rgba(255, 255, 255, 0.12) !important;
+}
+
+.hardware-accel-off .glass-pill,
+.low-perf-mode .glass-pill {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(20, 20, 24, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: none !important;
+  transform: translateZ(0);
+}
+
+.hardware-accel-off .glass-pill:hover,
+.low-perf-mode .glass-pill:hover {
+  background: rgba(30, 30, 36, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.hardware-accel-off .avatar-gradient-text,
+.low-perf-mode .avatar-gradient-text {
+  filter: none !important;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.8), 0 0 28px rgba(255, 255, 255, 0.3) !important;
+}
+
+.hardware-accel-off .vignette-overlay,
+.low-perf-mode .vignette-overlay {
+  backdrop-filter: none !important;
+}
+
+.hardware-accel-off .fade-in-up,
+.low-perf-mode .fade-in-up {
+  animation-duration: 0.4s !important;
+}
+
+/* Reduced Motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-duration: 48s !important;
+  }
+  .fade-in-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 

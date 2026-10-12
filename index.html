@@ -20,7 +20,7 @@
     rel="stylesheet" />
 
   <!-- Compiled CSS with cache busting -->
-  <link rel="stylesheet" href="style.css?v=20261012-perf-v2" />
+  <link rel="stylesheet" href="style.css?v=20261012-perf-v4" />
 </head>
 
 <body class="min-h-full flex flex-col">
@@ -89,8 +89,13 @@
                 <p id="discordUsername"
                   class="truncate text-[13px] font-medium text-white transition-colors">
                   Farru</p>
-                <span
-                  class="text-[10px] text-white/80 font-mono opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-3.5 w-3.5 flex-shrink-0 text-zinc-500 transition-all group-hover:text-white group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
               </div>
               <div class="flex items-center gap-1.5 min-w-0">
                 <span id="discordActivityIcon"
@@ -483,8 +488,8 @@
   </main>
 
   <script src="three.min.js"></script>
-  <script src="sphere-formations.js?v=20261012-perf-v2"></script>
-  <script src="script.js?v=20261012-perf-v2"></script>
+  <script src="sphere-formations.js?v=20261012-perf-v4"></script>
+  <script src="script.js?v=20261012-perf-v4"></script>
 </body>
 
 </html>

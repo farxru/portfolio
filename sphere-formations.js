@@ -40,8 +40,8 @@
   const isBudgetDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Sphere Count configuration
-  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 1400 : 1800) : 3200;
+  // Sphere Count configuration - dense, rich, and full 3D textured procedural shapes
+  const MAX_SPHERES = isMobile ? (isBudgetDevice ? 1400 : 1800) : 3000;
   const SPHERE_RADIUS = isMobile ? 0.23 : 0.20;
 
   // Constants
@@ -382,27 +382,33 @@
       const testCanvas = document.createElement('canvas');
       const gl = testCanvas.getContext('webgl', { powerPreference: 'high-performance' }) ||
                  testCanvas.getContext('experimental-webgl');
-      if (!gl) return { available: false, isSoftware: false };
+      if (!gl) return { available: false, isSoftware: true };
 
       const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      let isSoftware = false;
       if (dbg) {
         const rendererStr = (gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '').toLowerCase();
-        const vendorStr = (gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) || '').toLowerCase();
-        if (rendererStr.includes('swiftshader') || rendererStr.includes('llvmpipe') ||
-            rendererStr.includes('software') || vendorStr.includes('mesa')) {
-          return { available: true, isSoftware: true };
+        if (rendererStr.includes('swiftshader') || rendererStr.includes('llvmpipe')) {
+          isSoftware = true;
         }
       }
-      return { available: true, isSoftware: false };
+      return { available: true, isSoftware: isSoftware };
     } catch (e) {
-      return { available: false, isSoftware: false };
+      return { available: false, isSoftware: true };
     }
   }
 
   const webglState = checkWebGLCapabilities();
-  const useCanvas2DFallback = !webglState.available || (webglState.isSoftware && isBudgetDevice);
+  // Only fall back to Canvas 2D if WebGL is completely unavailable
+  const useCanvas2DFallback = !webglState.available;
 
-  // If Canvas 2D fallback is selected:
+  // If software rendering is detected (e.g. SwiftShader with hardware acceleration off),
+  // apply CSS optimizations so the DOM does not waste CPU on heavy blur filters
+  if (webglState.isSoftware) {
+    document.documentElement.classList.add('hardware-accel-off', 'low-perf-mode');
+  }
+
+  // If WebGL is genuinely unavailable, use Canvas 2D fallback:
   if (useCanvas2DFallback || !window.THREE) {
     runCanvas2DFallbackEngine();
     return;
@@ -660,23 +666,28 @@
       const elapsedTime = clock.getElapsedTime();
       phaseTime += delta;
 
-      // Frame time measurement
+      // Frame time measurement & real-time adaptive quality scaling (with warmup guard)
       frameCount++;
       const frameMs = delta * 1000;
-      if (frameMs > 20) {
-        slowFrames++;
-        fastFrames = 0;
-        if (slowFrames > 60 && currentDPR > 1.0) {
-          currentDPR = Math.max(0.85, currentDPR - 0.25);
-          renderer.setPixelRatio(currentDPR);
-          slowFrames = 0;
-        }
-      } else if (frameMs < 15) {
-        fastFrames++;
-        if (fastFrames > 200 && currentDPR < (isMobile ? 1.25 : 1.75)) {
-          currentDPR = Math.min(isMobile ? 1.25 : 1.75, currentDPR + 0.15);
-          renderer.setPixelRatio(currentDPR);
+      if (frameCount > 120) {
+        if (frameMs > 28) {
+          slowFrames++;
           fastFrames = 0;
+          if (slowFrames > 90) {
+            document.documentElement.classList.add('low-perf-mode');
+            if (currentDPR > 1.0) {
+              currentDPR = Math.max(0.9, currentDPR - 0.2);
+              renderer.setPixelRatio(currentDPR);
+            }
+            slowFrames = 0;
+          }
+        } else if (frameMs < 16.6) {
+          fastFrames++;
+          if (fastFrames > 300 && currentDPR < (isMobile ? 1.25 : 1.75)) {
+            currentDPR = Math.min(isMobile ? 1.25 : 1.75, currentDPR + 0.15);
+            renderer.setPixelRatio(currentDPR);
+            fastFrames = 0;
+          }
         }
       }
 
@@ -818,7 +829,7 @@
       return { radius: r, canvas: sCanvas };
     });
 
-    const COUNT_2D = isMobile ? 800 : 1400;
+    const COUNT_2D = isMobile ? 380 : 580;
     const pos2D = new Float32Array(COUNT_2D * 3);
     const start2D = new Float32Array(COUNT_2D * 3);
     const scatter2D = new Float32Array(COUNT_2D * 3);
@@ -841,10 +852,12 @@
     let angleY = 0;
 
     function resize2D() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      // In software rendering, cap resolution at max 1.0 DPR to prevent CPU rasterizer bottlenecks on Retina/4K
+      width = canvas.width = Math.min(window.innerWidth, 1920);
+      height = canvas.height = Math.min(window.innerHeight, 1080);
     }
-    window.addEventListener('resize', resize2D);
+    resize2D();
+    window.addEventListener('resize', resize2D, { passive: true });
 
     let isRunning2D = true;
     document.addEventListener('visibilitychange', () => {
